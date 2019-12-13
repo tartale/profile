@@ -1,0 +1,59 @@
+#!/bin/bash
+
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+brew install git
+brew install openssl
+
+brew cask install google-chrome
+brew cask install firefox
+brew cask install slack
+brew cask install visual-studio-code
+brew cask install goland
+
+brew cask install intellij-idea-ce
+brew install coreutils
+brew install hub
+brew cask install meld
+brew install node@8
+brew install go@1.10
+brew install bash-completion
+brew install jq
+brew install watch
+brew cask install postman
+brew cask install macdown
+brew cask install disk-inventory-x
+brew cask install docker
+brew install imagemagick
+brew install nginx
+brew install pkg-config
+#brew cask install xcode
+brew install dos2unix
+brew cask install webex-teams
+#brew cask install java
+brew install maven
+brew install nvm
+brew install jenv
+brew tap homebrew/cask-versions
+brew cask install vlc
+brew install gettext
+brew cask install corretto8
+brew install pyenv
+
+brew install jfrog-cli-go
+brew cask install insomnia
+brew install wget
+brew install ansible
+brew cask install virtualbox
+brew cask install minikube
+brew install gradle
+brew install wine winetricks
+brew cask install google-cloud-sdk
+brew cask install bloomrpc
+brew install unison
+brew install fswatch
+brew cask install google-cloud-sdk
+brew install bazel
+brew cask install adoptopenjdk8
+brew tap bazelbuild/tap
+brew install dep
