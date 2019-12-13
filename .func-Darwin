@@ -1,0 +1,77 @@
+#!/bin/bash
+
+function publicIPFor() (
+  local interface="${1}"
+
+  if [ -z "${interface}" ]
+  then
+    >&2 echo "usage: publicIPFor <interface>"
+    return 1
+  fi
+
+  ip=$(ifconfig "${interface}" | awk '/inet / {print $2}')
+  if [ -z "${ip}" ]
+  then
+    >&2 echo "unable to find public IP for ${interface}"
+    return 1
+  fi
+
+  echo "${ip}"
+  return 0
+)
+
+function brewt() (
+  local args="$*"
+
+  brew ${args} && echo "brew ${args}" >> ${HOME}/dotfiles/.brew 
+)
+
+function artifactXfer() (
+  local artifact="${1}"
+  if [ -z ${artifact} ]
+  then
+    >&2 echo "usage: $0 <artifact path>"
+    return 1
+  fi
+  local artifactReq="$(dirname ${artifact/vendor-2/vendor-2-requests})/**"
+
+  jfrog rt use local && \
+  jfrog rt download --flat ${artifact} && \
+  jfrog rt use cloud-vendor2 && \
+  jfrog rt upload $(basename ${artifact}) ${artifact} && \
+  echo "Removing request at ${artifactReq}" && \
+  jfrog rt delete --quiet --recursive ${artifactReq} && \
+  jfrog rt use local
+  rm $(basename ${artifact})
+)
+
+function artifactoryListFolder() (
+  local repo="${1}"
+  local folder="${2}"
+  if [ -z ${repo} ] || [ -z ${folder} ]
+  then
+    >&2 echo "usage: artifactoryListFolder <repo> <folder>"
+    return 1
+  fi
+  jfrog rt curl -sS -X POST /api/search/aql -H 'Content-Type: text/plain' -d \
+    'items.find( { "repo": {"$eq": "'${repo}'" }, "type": {"$eq": "any"}, "path": {"$match": "'${folder}'*"} } )' | \
+      jq -r '.results | .[] | .repo + "/" + .path + "/" + .name'
+)
+
+function artifactoryRemoveFolderIfEmpty() (
+  local repo="${1}"
+  local folder="${2}"
+  if [ -z ${repo} ] || [ -z ${folder} ]
+  then
+    >&2 echo "usage: artifactoryRemoveFolderIfEmpty <repo> <folder>"
+    return 1
+  fi
+  contents=($(artifactoryListFolder $repo $folder))
+  echo ${contents[@]}
+
+  if [ ${#contents[@]} -eq 1 ]
+  then
+      #jfrog rt delete --quiet "${repo}/${folder}"
+      echo "empty"
+  fi
+)
