@@ -1,5 +1,8 @@
 #!/bin/bash
 
+git config --global user.email "tom@aspenmesh.io"
+git config --global user.name "Tom"
+
 function gdirty() (
   local repos=(${*:1})
   
@@ -32,6 +35,7 @@ function guntracked() (
   ) 
   done
 )
+  git config --global user.name "Your Name"
 
 function whichbranch() (
   local repos=(${*:1})
