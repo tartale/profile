@@ -16,7 +16,8 @@ brew install coreutils
 #brew install hub
 #brew cask install meld
 #brew install node@8
-#brew install go@1.12
+brew install go@1.12
+brew link --force go@1.12
 brew install bash-completion
 brew install jq
 brew install watch
@@ -59,3 +60,36 @@ brew install winetricks
 #brew tap bazelbuild/tap
 #brew install dep
 
+brew install clang-format
+brew install cassandra
+brew install enscript
+brew install graphviz
+brew install stern
+brew cask install homebrew/cask-versions/adoptopenjdk8
+brew install swagger-codegen@2
+brew install terraform
+brew install terraform-docs
+brew install hugo
+brew install libjwt
+brew tap mike-engel/jwt-cli
+brew install jwt-cli
+brew uninstall libjwt
+brew install eksctl
+brew install istioctl
+brew install jenkins-lts
+brew install go@1.14
+brew install bash-completion@2
+brew install graphviz
+brew cask install bloomrpc
+brew install openshift-cli
+brew install operator-sdk
+brew install python-yq
+brew install gitlab-runner
+brew install circleci
+brew install bazel
+brew install curl
+brew install gh
+brew install go@1.15
+brew install yamllint
+brew install bats
+brew install shellcheck

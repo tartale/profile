@@ -1,5 +1,14 @@
 #!/bin/bash
 
+function myIP()(
+  curl http://api.ipify.org 2> /dev/null
+  echo
+)
+
+function cdp() {
+  cd /Users/artale/aspenmesh/$1
+}
+
 function interface()(
   netstat -rn | grep default | head -1 | awk '{print $6}'
 )
@@ -18,8 +27,55 @@ function mvlink(){
   rm -f $1 && ln -s $2 $1
 }
 
+function glt() {
+  if [ $# -eq 0 ]; then
+    pkgs="./"
+  else
+    pkgs="$1"
+  fi
+  ginkgo --dryRun -v --tags=intTest -r --compilers=1 --seed=1 "${pkgs}" | grep -v "Ran " | grep -v "Will run" | grep -v "Ginkgo ran" | grep -v "_test.go"
+}
+
+function dockerclean() {
+  docker images -f "dangling=true" -q | xargs docker rmi -f
+  docker rm -v $(docker ps -a -q -f status=exited)
+  docker volume ls -f 'dangling=true' -q | xargs docker volume rm
+  docker ps -a | egrep 'Exited.*(days|weeks|months)' | awk '{print $1}' | xargs docker rm -v
+}
+
+function kdap() {
+  if [ $# -ne 1 ]; then
+    echo "usage: $0 namespace" >&2
+    return 1
+  fi
+  kubectl delete --all pods --namespace=$1
+}
+
+function kdaa() {
+  if [ $# -ne 1 ]; then
+    echo "usage: $0 namespace" >&2
+    return 1
+  fi
+  kubectl delete --all deployments,jobs,services,pods --namespace=$1
+}
+
+function hx() {
+  cmd="history"
+  for g in $*; do
+    cmd="$cmd | grep ${g}"
+  done
+  eval "${cmd}"
+}
+
+function ff() {
+  find . -type f -exec grep -l "${1}" {} \;
+}
+
 thisScriptDir=$(realpath $(dirname $BASH_SOURCE))
 thisOS=$(uname)
 source "${thisScriptDir}/.func-${thisOS}"
 
-
+if [ -e "${thisScriptDir}/.func-aspenmesh" ]
+then
+    source "${thisScriptDir}/.func-aspenmesh"
+fi

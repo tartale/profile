@@ -1,0 +1,21 @@
+#!/bin/bash
+
+function recentDownload()(
+  ls -d -1t ${DOWNLOAD_PATH}/* 2>/dev/null | head -n 1
+)
+
+function previousDownload()(
+  ls -d -1t ${DOWNLOAD_PATH}/* 2>/dev/null | head -n 2 | tail -n 1
+)
+
+function findDownload()(
+  name="${1}"
+  find -s ${DOWNLOAD_PATH} -name "*${name}*" -maxdepth 1
+)
+
+function valuesOverridesFile()(
+  file="${PWD}/overrides-aspenmesh.yaml"
+  if [ -f $file ]; then
+    printf " --values ${PWD}/overrides-aspenmesh.yaml "
+  fi
+)
