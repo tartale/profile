@@ -1,95 +1,18 @@
 #!/bin/bash
 
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+arch=$(uname -p)
 
-brew install git
-brew install openssl
-
-#brew cask install google-chrome
-brew cask install firefox
-brew cask install slack
-brew cask install visual-studio-code
-brew cask install goland
-
-#brew cask install intellij-idea-ce
-brew install coreutils
-#brew install hub
-#brew cask install meld
-#brew install node@8
-brew install go@1.12
-brew link --force go@1.12
-brew install bash-completion
-brew install jq
-brew install watch
-brew cask install postman
-brew cask install macdown
-brew cask install disk-inventory-x
-brew cask install docker
-#brew install imagemagick
-#brew install nginx
-brew install pkg-config
-#brew cask install xcode
-brew install dos2unix
-#brew cask install webex-teams
-#brew cask install java
-#brew install maven
-#brew install nvm
-#brew install jenv
-brew tap homebrew/cask-versions
-#brew cask install vlc
-brew install gettext
-#brew cask install corretto8
-brew install pyenv
-
-#brew install jfrog-cli-go
-#brew cask install insomnia
-brew install wget
-#brew install ansible
-#brew cask install virtualbox
-#brew cask install minikube
-#brew install gradle
-brew cask install wine-stable
-brew install winetricks
-#brew cask install google-cloud-sdk
-#brew cask install bloomrpc
-#brew install unison
-#brew install fswatch
-#brew cask install google-cloud-sdk
-#brew install bazel
-#brew cask install adoptopenjdk8
-#brew tap bazelbuild/tap
-#brew install dep
-
-brew install clang-format
-brew install cassandra
-brew install enscript
-brew install graphviz
-brew install stern
-brew cask install homebrew/cask-versions/adoptopenjdk8
-brew install swagger-codegen@2
-brew install terraform
-brew install terraform-docs
-brew install hugo
-brew install libjwt
-brew tap mike-engel/jwt-cli
-brew install jwt-cli
-brew uninstall libjwt
-brew install eksctl
-brew install istioctl
-brew install jenkins-lts
-brew install go@1.14
-brew install bash-completion@2
-brew install graphviz
-brew cask install bloomrpc
-brew install openshift-cli
-brew install operator-sdk
-brew install python-yq
-brew install gitlab-runner
-brew install circleci
-brew install bazel
-brew install curl
-brew install gh
-brew install go@1.15
-brew install yamllint
-brew install bats
-brew install shellcheck
+case "${arch}" in
+    arm)
+      PATH="/opt/homebrew/bin:${PATH}"
+      export PATH
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    ;;
+    i386)
+      PATH="/usr/local/Homebrew/bin:${PATH}"
+      export PATH
+      eval "$(/usr/local/Homebrew/bin/brew shellenv)"
+      export HOMEBREW_PREFIX=/usr/local
+      export HOMEBREW_CELLAR=/usr/local/Cellar
+    ;;
+esac
