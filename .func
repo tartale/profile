@@ -6,7 +6,7 @@ function myIP()(
 )
 
 function cdp() {
-  cd /Users/artale/aspenmesh/$1
+  cd "${PROJECTS}/${1}"
 }
 
 function interface()(
@@ -71,11 +71,33 @@ function ff() {
   find . -type f -exec grep -l "${1}" {} \;
 }
 
-thisScriptDir=$(realpath $(dirname $BASH_SOURCE))
-thisOS=$(uname)
-source "${thisScriptDir}/.func-${thisOS}"
+function msplit() {
+  if [ $# -ne 3 ]; then
+    echo "usage: msplit <artist> <album> <song>" >&2
+    return 1
+  fi
+  local artist="${1}"
+  local album="${2}"
+  local song="${3}"
+  local songNoExt=${song%.*};
+  
+  local spleeterDir="${PROJECTS}/spleeter"
+  local musicDir="/Volumes/media/iTunes/iTunes Media/Music"
+  local outputDir="/Volumes/media/music-stems/${artist}/${album}"
+  local filenameFormat="${songNoExt} - {instrument}.{codec}"
 
-if [ -e "${thisScriptDir}/.func-aspenmesh" ]
+  (
+    cd "${spleeterDir}"
+    python -m spleeter separate -p spleeter:5stems \
+      -o "${outputDir}" -f "${filenameFormat}" -c "m4a" "${musicDir}/${artist}/${album}/${song}"
+  )
+}
+
+THIS_SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE}[0]); pwd)
+thisOS=$(uname)
+source "${THIS_SCRIPT_DIR}/.func-${thisOS}"
+
+if [ -e "${THIS_SCRIPT_DIR}/.func-aspenmesh" ]
 then
-    source "${thisScriptDir}/.func-aspenmesh"
+    source "${THIS_SCRIPT_DIR}/.func-aspenmesh"
 fi
