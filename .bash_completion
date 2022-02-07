@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
-
-source ~/dotfiles/.alias_completion.sh
-source ~/dotfiles/.git_completion.sh
-
