@@ -71,11 +71,31 @@ function ff() {
   find . -type f -exec grep -l "${1}" {} \;
 }
 
-thisScriptDir=$(realpath $(dirname $BASH_SOURCE))
-thisOS=$(uname)
-source "${thisScriptDir}/.func-${thisOS}"
+function msplit() {
+  if [[ $# != 3 ]]; then
+    echo "usage: msplit <artist> <album> <song.ext>" >&2
+    return 1
+  fi
+  artist="${1}"
+  album="${2}"
+  song="${3}"
+  songNoExt=${song%.*}
 
-if [ -e "${thisScriptDir}/.func-aspenmesh" ]
+  outputDir="/Volumes/media/music-stems/${artist}/${album}"
+  filenameFormat="${songNoExt} - {instrument}.{codec}"
+
+  (
+    cd "${PROJECTS}/spleeter"
+    python -m spleeter separate -p spleeter:5stems -o "${outputDir}" -f "${filenameFormat}" -c "m4a" \
+      "/Volumes/media/iTunes/iTunes Media/Music/${artist}/${album}/${song}"
+  )
+}
+
+THIS_SCRIPT_DIR=$(cd $(dirname $BASH_SOURCE); pwd)
+thisOS=$(uname)
+source "${THIS_SCRIPT_DIR}/.func-${thisOS}"
+
+if [ -e "${THIS_SCRIPT_DIR}/.func-aspenmesh" ]
 then
-    source "${thisScriptDir}/.func-aspenmesh"
+    source "${THIS_SCRIPT_DIR}/.func-aspenmesh"
 fi
