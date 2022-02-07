@@ -50,6 +50,8 @@ function gfinish {
   git branch -D ${branch}
 }
 
+source "${PROJECTS}/profile/.git-completion.sh"
+
 __git_complete gfinish _git_checkout
 __git_complete gck _git_checkout
 __git_complete gb _git_branch
