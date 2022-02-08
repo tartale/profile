@@ -1,5 +1,7 @@
 #!/bin/bash
 
+THIS_SCRIPT_DIR=$(cd $(dirname $BASH_SOURCE); pwd)
+
 function publicIPFor() (
   local interface="${1}"
 
@@ -23,7 +25,7 @@ function publicIPFor() (
 function brewt() (
   local args="$*"
 
-  brew ${args} && echo "brew ${args}" >> ${HOME}/dotfiles/.brew 
+  brew ${args} && echo "brew ${args}" >> "${THIS_SCRIPT_DIR}/.brewfile"
 )
 
 function artifactXfer() (

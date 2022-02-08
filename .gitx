@@ -1,7 +1,7 @@
 #!/bin/bash
 
-git config --global user.email "tom@aspenmesh.io"
-git config --global user.name "Tom Artale"
+git config --global user.email "tommygun731@gmail.com"
+git config --global user.name "Tom"
 
 export MYGITHUB="git@github.com:tartale"
 export GITHUB="git@github.com:aspenmesh"
@@ -49,6 +49,10 @@ function gfinish {
   git pull upstream $(gdefault)
   git branch -D ${branch}
 }
+
+
+THIS_SCRIPT_DIR=$(cd $(dirname $BASH_SOURCE); pwd)
+source "${THIS_SCRIPT_DIR}/.git-completion.sh"
 
 __git_complete gfinish _git_checkout
 __git_complete gck _git_checkout

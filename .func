@@ -71,25 +71,6 @@ function ff() {
   find . -type f -exec grep -l "${1}" {} \;
 }
 
-function msplit() {
-  if [[ $# != 3 ]]; then
-    echo "usage: msplit <artist> <album> <song.ext>" >&2
-    return 1
-  fi
-  artist="${1}"
-  album="${2}"
-  song="${3}"
-  songNoExt=${song%.*}
-
-  outputDir="/Volumes/media/music-stems/${artist}/${album}"
-  filenameFormat="${songNoExt} - {instrument}.{codec}"
-
-  (
-    cd "${PROJECTS}/spleeter"
-    python -m spleeter separate -p spleeter:5stems -o "${outputDir}" -f "${filenameFormat}" -c "m4a" \
-      "/Volumes/media/iTunes/iTunes Media/Music/${artist}/${album}/${song}"
-  )
-}
 
 THIS_SCRIPT_DIR=$(cd $(dirname $BASH_SOURCE); pwd)
 thisOS=$(uname)
