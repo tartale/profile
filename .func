@@ -9,6 +9,16 @@ function cdp() {
   cd "${PROJECTS}/$1"
 }
 
+function _complete_cdp {
+  # only allow completion one subdir-deep
+  if [[ ${COMP_CWORD} == 2 ]]; then
+    return 0
+  fi
+
+  _complete_dir_helper "${PROJECTS}"
+}
+complete -F _complete_cdp cdp
+
 function interface()(
   netstat -rn | grep default | head -1 | awk '{print $6}'
 )

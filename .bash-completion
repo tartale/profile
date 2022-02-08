@@ -3,3 +3,21 @@
 # [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
+function _complete_dir_helper() {
+  if [[ $# != 1 ]]; then
+    echo "usage: _complete_dir_helper <dir>" >&2
+  fi
+  dir="${1}"
+
+  COMPREPLY=()
+  
+  pushd "${dir}" > /dev/null 2>&1
+
+  while read -r line
+  do    
+    COMPREPLY+=("${line}")
+  done < <( compgen -f "${COMP_WORDS[COMP_CWORD]}" )
+
+  popd > /dev/null 2>&1 || true
+}

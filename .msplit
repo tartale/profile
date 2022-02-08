@@ -24,28 +24,21 @@ function msplit() {
 
 CURRENT_PATH="${MUSIC_DIR}"
 _msplit_completion() {
-  COMPREPLY=()
-  
+
+  # first pass for autocomplete, so reset to root music dir
   if [[ ${COMP_CWORD} == 1 ]]; then
     CURRENT_PATH="${MUSIC_DIR}"
   fi
 
+  # stop when we hit a file
   if [[ -f "${CURRENT_PATH}" ]]; then
     return 0
   fi
 
-  pushd "${CURRENT_PATH}" > /dev/null 2>&1
-
-  while read -r line
-  do    
-    COMPREPLY+=("${line}")
-  done < <( compgen -f "${COMP_WORDS[COMP_CWORD]}" )
+  _complete_dir_helper "${CURRENT_PATH}"
 
   if [[ ${#COMPREPLY[@]} == 1 ]]; then
     CURRENT_PATH="${CURRENT_PATH}/${COMPREPLY[0]}"
   fi
-
-  popd > /dev/null 2>&1 || true
 }
-
 complete -o filenames -F _msplit_completion msplit
