@@ -16,7 +16,6 @@ alias cdgoa='cd /Users/artale/aspenmesh/go/src/github.com/aspenmesh'
 alias cdgoap='cd /Users/artale/aspenmesh/go/src/github.com/aspenmesh/apiserver'
 alias cdgot='cd /Users/artale/aspenmesh/go/src/github.com/tartale'
 alias cluster-info.sh='cluster-info.sh $(basename $PWD)'
-alias ht="helm template istio $(recentDownload)/manifests/charts/istio-control/istio-discovery --namespace istio-system"
 alias install-aspen-mesh.sh='$(issafe) && install-aspen-mesh.sh $(basename $PWD)'
 alias install-secrets.sh='install-secrets.sh $(basename $PWD)'
 alias initialize-openshift-namespace.sh='initialize-openshift-namespace.sh $(basename $PWD)'
