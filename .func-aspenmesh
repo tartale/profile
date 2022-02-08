@@ -19,3 +19,12 @@ function valuesOverridesFile()(
     printf " --values ${PWD}/overrides-aspenmesh.yaml "
   fi
 )
+
+function glt() {
+  if [ $# -eq 0 ]; then
+    pkgs="./"
+  else
+    pkgs="$1"
+  fi
+  ginkgo --dryRun -v --tags=intTest -r --compilers=1 --seed=1 "${pkgs}" | grep -v "Ran " | grep -v "Will run" | grep -v "Ginkgo ran" | grep -v "_test.go"
+}
