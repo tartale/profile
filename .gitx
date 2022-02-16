@@ -11,6 +11,17 @@ function gdefault() (
   echo "${defaultBranch}"
 )
 
+function gremote() (
+  defaultRemote="upstream"
+  git remote | grep upstream > /dev/null 2>&1
+  exists="$?"
+  if [[ ${exists} == 1 ]]; then
+    defaultRemote="origin"
+  fi
+
+  echo "${defaultRemote}"
+)
+
 function gsquash() (
   if [[ "${1}" == "" ]] || [[ "${2}" == "" ]]
   then
@@ -50,10 +61,7 @@ function gfinish {
   git branch -D ${branch}
 }
 
-
-THIS_SCRIPT_DIR=$(cd $(dirname $BASH_SOURCE); pwd)
-source "${THIS_SCRIPT_DIR}/.git-completion.sh"
-
+source "${PROJECTS}/profile/.git-completion.sh"
 __git_complete gfinish _git_checkout
 __git_complete gck _git_checkout
 __git_complete gb _git_branch

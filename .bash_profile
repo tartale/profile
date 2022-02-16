@@ -1,18 +1,14 @@
 #!/bin/bash
 
-THIS_SCRIPT_DIR=$(cd $(dirname $BASH_SOURCE); pwd)
-
-source ${THIS_SCRIPT_DIR}/.bash-completion
-
-source ${THIS_SCRIPT_DIR}/.env
-
-source ${THIS_SCRIPT_DIR}/.alias
-source ${THIS_SCRIPT_DIR}/.aws
-source ${THIS_SCRIPT_DIR}/.brew
-source ${THIS_SCRIPT_DIR}/.func
-source ${THIS_SCRIPT_DIR}/.gitx
-source ${THIS_SCRIPT_DIR}/.gox
-source ${THIS_SCRIPT_DIR}/.hooks
-source ${THIS_SCRIPT_DIR}/.msplit
-source ${THIS_SCRIPT_DIR}/.shims
-source ${THIS_SCRIPT_DIR}/.vm
+source "${PROJECTS}/profile/.bash-completion"
+source "${PROJECTS}/profile/.env"
+source "${PROJECTS}/profile/.alias"
+source "${PROJECTS}/profile/.aws"
+source "${PROJECTS}/profile/.brew"
+source "${PROJECTS}/profile/.func"
+source "${PROJECTS}/profile/.gitx"
+source "${PROJECTS}/profile/.gox"
+source "${PROJECTS}/profile/.hooks"
+source "${PROJECTS}/profile/.msplit"
+source "${PROJECTS}/profile/.shims"
+source "${PROJECTS}/profile/.vm"

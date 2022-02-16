@@ -2,9 +2,6 @@
 
 unalias -a
 
-THIS_SCRIPT_DIR=$(cd $(dirname $BASH_SOURCE); pwd)
-
-alias ae='vi ${THIS_SCRIPT_DIR}/.alias && source ${THIS_SCRIPT_DIR}/.alias'
 alias aenv='env | grep AWS'
 alias allgit='find $PROJECTS -name ".git" -exec dirname {} \;'
 alias awho='aws sts get-caller-identity'
@@ -18,20 +15,25 @@ alias gckm='git checkout $(gdefault)'
 alias gcm='git commit -vm'
 alias gcw='git commit -vm WIP'
 alias gd='git diff'
+alias gdw='git diff -w'
+alias gNotDefault='git branch | grep -v "* $(gdefault)" > /dev/null 2>&1'
 alias gl='git log'
 alias gll='git log --graph --decorate --pretty=oneline --abbrev-commit --all'
 alias gmt='go mod tidy && git add go.mod go.sum && git commit -vm "go mod tidy" && $(gpush)'
+alias gpm='git pull $(gremote) $(gdefault)'
 alias gpush='git push origin $(gcb)'
 alias gs='git status'
 alias gsu='git submodule update --init --recursive'
 alias gsul='git submodule update --remote --merge'
-alias gum='cb=$(gcb) && git checkout $(gdefault) && git pull upstream $(gdefault) && git checkout $cb'
+alias gulc='$(gNotDefault) || git checkout -b latest-common; pushd common; $(gckm > /dev/null 2>&1); $(gpm); popd; git add common; git commit -vm "Update to latest common"'
+alias gum='cb=$(gcb) && git checkout $(gdefault) && git pull $(gremote) $(gdefault) && git checkout $cb'
 alias hls='helm ls -A'
 alias hmt='history | grep "make test" | grep -v history'
 alias k='kubectl'
 alias kec='kops edit cluster'
 alias ll='ls -la'
 alias nw='watch -n 1 lsof -nP -i'
+alias pe='code -n -w ${PROJECTS}/profile && source ${PROJECTS}/profile/.bash_profile'
 alias pidport='lsof -i -n -P'
 alias psa='ps -ao user,pid,ppid,start,time,command'
 alias psu="ps auwx | grep ${USER}"
@@ -45,8 +47,8 @@ alias up3='cd ../../../'
 alias up4='cd ../../../../'
 alias up5='cd ../../../../../'
 
-if [[ -e "${THIS_SCRIPT_DIR}" ]]; then
-  source "${THIS_SCRIPT_DIR}/.alias-aspenmesh.sh"
+if [[ -e "${PROJECTS}/profile/.alias-aspenmesh.sh" ]]; then
+  source "${PROJECTS}/profile/.alias-aspenmesh.sh"
 fi
 
-source "${THIS_SCRIPT_DIR}/.alias-completion.sh"
+source "${PROJECTS}/profile/.alias-completion.sh"

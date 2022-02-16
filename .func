@@ -73,11 +73,10 @@ function ff() {
 }
 
 
-THIS_SCRIPT_DIR=$(cd $(dirname $BASH_SOURCE); pwd)
 thisOS=$(uname)
-source "${THIS_SCRIPT_DIR}/.func-${thisOS}"
+source "${PROJECTS}/profile/.func-${thisOS}"
 
-if [ -e "${THIS_SCRIPT_DIR}/.func-aspenmesh" ]
+if [ -e "${PROJECTS}/profile/.func-aspenmesh" ]
 then
-    source "${THIS_SCRIPT_DIR}/.func-aspenmesh"
+    source "${PROJECTS}/profile/.func-aspenmesh"
 fi

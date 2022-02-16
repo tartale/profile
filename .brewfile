@@ -93,3 +93,4 @@ brew install go@1.15
 brew install yamllint
 brew install bats
 brew install shellcheck
+brew upgrade kops

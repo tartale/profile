@@ -54,6 +54,7 @@ alias mvn='mvn -U'
 alias oh='kubectl apply -f https://git.io/JJ6dY'
 alias psu='ps auwx | grep tom.artale'
 alias remove-aspen-mesh.sh='$(issafe) && remove-aspen-mesh.sh $(basename $PWD)'
-alias sg='npm run build-types /Users/artale/aspenmesh/go/src/github.com/aspenmesh/apiserver/pkg/generated/api/public/controlplane/v1/service.swagger.json controlplane'
+alias sg="npm run rtkquery-codegen ${PROJECTS}/go/src/github.com/aspenmesh/apiserver/pkg/generated/api/public/controlplane/v1/service.swagger.json controlplane && \
+  cp -f ${PROJECTS}/go/src/github.com/aspenmesh/apiserver/pkg/generated/api/public/controlplane/v1/service.swagger.json ${PROJECTS}/client-ui/src/swagger-client/swagger.json"
 alias upgrade-aspen-mesh.sh='upgrade-aspen-mesh.sh $(basename $PWD)'
 alias ut='RUN_INT_TESTS="false" GINKGO_PKGS="pkg/eventmanager" make test'
