@@ -1,6 +1,8 @@
 #!/bin/bash
 
+alias ael='export $(aws-env-login.sh | xargs)'
 alias als='aws s3 ls s3://aspenmesh-release'
+alias apl='aws-profile-login.sh'
 alias awsh='echo $(kubectl -n istio-system get svc istio-ingressgateway -o=jsonpath="{.status.loadBalancer.ingress[0].hostname}")'
 alias bookinfo-sample.sh='bookinfo-sample.sh $(basename $PWD)'
 alias bookinfo-traffic.sh='bookinfo-traffic.sh $(basename $PWD)'
