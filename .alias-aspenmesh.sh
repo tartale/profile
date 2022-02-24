@@ -7,7 +7,6 @@ alias awsh='echo $(kubectl -n istio-system get svc istio-ingressgateway -o=jsonp
 alias bookinfo-sample.sh='bookinfo-sample.sh $(basename $PWD)'
 alias bookinfo-traffic.sh='bookinfo-traffic.sh $(basename $PWD)'
 alias ccv='circleci config validate --org-slug gh/aspenmesh'
-alias cdc='cd /Users/artale/aspenmesh/clusters'
 alias cdcgd='cd /Users/artale/aspenmesh/clusters/green.demo.k8s.local'
 alias cdcmd='cd /Users/artale/aspenmesh/clusters/mttr.demo.k8s.local'
 alias cdctd='cd /Users/artale/aspenmesh/clusters/tom.dev.k8s.local'

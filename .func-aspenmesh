@@ -1,5 +1,19 @@
 #!/bin/bash
 
+function cdc() {
+  cd "${PROJECTS}/clusters/$1"
+}
+
+function _complete_cdc {
+  # only allow completion one subdir-deep
+  if [[ ${COMP_CWORD} == 2 ]]; then
+    return 0
+  fi
+
+  _complete_dir_helper "${PROJECTS}/clusters"
+}
+complete -o filenames -F _complete_cdc cdc
+
 function recentDownload()(
   ls -d -1t ${DOWNLOAD_PATH}/* 2>/dev/null | head -n 1
 )
@@ -21,10 +35,13 @@ function valuesOverridesFile()(
 )
 
 function glt() {
-  if [ $# -eq 0 ]; then
-    pkgs="./"
+  if [[ $# -eq 0 ]]; then
+    pkgs="${PWD}"
   else
     pkgs="$1"
   fi
-  ginkgo --dryRun -v --tags=intTest -r --compilers=1 --seed=1 "${pkgs}" | grep -v "Ran " | grep -v "Will run" | grep -v "Ginkgo ran" | grep -v "_test.go"
+  if [[ "${pkgs}" =~ .*test\/int.* ]]; then
+    tags="--tags=intTest"
+  fi
+  ginkgo --dryRun -v ${tags} -r --compilers=1 --seed=1 "${pkgs}" | grep -v "Ran " | grep -v "Will run" | grep -v "Ginkgo ran" 
 }

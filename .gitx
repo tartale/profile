@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git config --global user.email "tommygun731@gmail.com"
+git config --global user.email "tartale.work@gmail.com"
 git config --global user.name "Tom"
 
 export MYGITHUB="git@github.com:tartale"
@@ -65,3 +65,8 @@ source "${PROJECTS}/profile/.git-completion.sh"
 __git_complete gfinish _git_checkout
 __git_complete gck _git_checkout
 __git_complete gb _git_branch
+
+if [ -e "${PROJECTS}/profile/.gitx-aspenmesh" ]
+then
+    source "${PROJECTS}/profile/.gitx-aspenmesh"
+fi
