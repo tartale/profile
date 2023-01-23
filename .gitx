@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git config --global user.email "tommygun731@gmail.com"
+git config --global user.email "tartale.work@gmail.com"
 git config --global user.name "Tom"
 
 export MYGITHUB="git@github.com:tartale"
@@ -9,6 +9,17 @@ export GITHUB="git@github.com:aspenmesh"
 function gdefault() (
   defaultBranch="${GIT_DEFAULT_BRANCH:-main}"
   echo "${defaultBranch}"
+)
+
+function gremote() (
+  defaultRemote="upstream"
+  git remote | grep upstream > /dev/null 2>&1
+  exists="$?"
+  if [[ ${exists} == 1 ]]; then
+    defaultRemote="origin"
+  fi
+
+  echo "${defaultRemote}"
 )
 
 function gsquash() (
@@ -50,10 +61,12 @@ function gfinish {
   git branch -D ${branch}
 }
 
-
-THIS_SCRIPT_DIR=$(cd $(dirname $BASH_SOURCE); pwd)
-source "${THIS_SCRIPT_DIR}/.git-completion.sh"
-
+source "${PROJECTS}/profile/.git-completion.sh"
 __git_complete gfinish _git_checkout
 __git_complete gck _git_checkout
 __git_complete gb _git_branch
+
+if [ -e "${PROJECTS}/profile/.gitx-aspenmesh" ]
+then
+    source "${PROJECTS}/profile/.gitx-aspenmesh"
+fi

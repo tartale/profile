@@ -10,11 +10,6 @@ function cdp() {
 }
 
 function _complete_cdp {
-  # only allow completion one subdir-deep
-  if [[ ${COMP_CWORD} == 2 ]]; then
-    return 0
-  fi
-
   _complete_dir_helper "${PROJECTS}"
 }
 complete -F _complete_cdp cdp
@@ -73,11 +68,10 @@ function ff() {
 }
 
 
-THIS_SCRIPT_DIR=$(cd $(dirname $BASH_SOURCE); pwd)
 thisOS=$(uname)
-source "${THIS_SCRIPT_DIR}/.func-${thisOS}"
+source "${PROJECTS}/profile/.func-${thisOS}"
 
-if [ -e "${THIS_SCRIPT_DIR}/.func-aspenmesh" ]
+if [ -e "${PROJECTS}/profile/.func-aspenmesh" ]
 then
-    source "${THIS_SCRIPT_DIR}/.func-aspenmesh"
+    source "${PROJECTS}/profile/.func-aspenmesh"
 fi
