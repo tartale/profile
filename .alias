@@ -10,6 +10,7 @@ alias allgit='find $PROJECTS -name ".git" -exec dirname {} \;'
 alias awho='aws sts get-caller-identity'
 alias da='direnv allow'
 alias dp='docker system prune'
+alias dnslist="scutil --dns | grep 'nameserver\[[0-9]*\]'"
 alias gaa='git add .'
 alias gb='git branch'
 alias gcb='git symbolic-ref --short HEAD'
