@@ -1,5 +1,10 @@
 #!/bin/bash
 
+function ags() {
+  secretID="${1}"
+  aws secretsmanager get-secret-value --secret-id "${secretID}" --output json | jq -r '.SecretString' | jq
+}
+
 function myIP()(
   curl http://api.ipify.org 2> /dev/null
   echo
