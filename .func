@@ -5,11 +5,6 @@ function ags() {
   aws secretsmanager get-secret-value --secret-id "${secretID}" --output json | jq -r '.SecretString' | jq
 }
 
-function myIP()(
-  curl http://api.ipify.org 2> /dev/null
-  echo
-)
-
 function cdp() {
   cd "${PROJECTS}/$1"
 }
@@ -19,22 +14,8 @@ function _complete_cdp {
 }
 complete -F _complete_cdp cdp
 
-function interface()(
-  netstat -rn | grep default | head -1 | awk '{print $6}'
-)
-
-function mvlink(){
-  if [ -z $1 ] || [ -z $2 ]; then
-    echo "usage: $0 sourceLink target"
-    return 1
-  fi
-
-  if [ ! -L $1 ]; then
-    echo "$1: not a symbolic link"
-    return 1
-  fi
-
-  rm -f $1 && ln -s $2 $1
+function decode() {
+  echo "${1}" | base64 -d
 }
 
 function dockerclean() {
@@ -42,6 +23,18 @@ function dockerclean() {
   docker rm -v $(docker ps -a -q -f status=exited)
   docker volume ls -f 'dangling=true' -q | xargs docker volume rm
   docker ps -a | egrep 'Exited.*(days|weeks|months)' | awk '{print $1}' | xargs docker rm -v
+}
+
+function encode() {
+  echo "${1}" | base64
+}
+
+function ff() {
+  find . -type f -exec grep -l "${1}" {} \;
+}
+
+function interface() {
+  netstat -rn | grep default | head -1 | awk '{print $6}'
 }
 
 function kdap() {
@@ -68,10 +61,24 @@ function hx() {
   eval "${cmd}"
 }
 
-function ff() {
-  find . -type f -exec grep -l "${1}" {} \;
+function myIP() {
+  curl http://api.ipify.org 2> /dev/null
+  echo
 }
 
+function mvlink() {
+  if [ -z $1 ] || [ -z $2 ]; then
+    echo "usage: $0 sourceLink target"
+    return 1
+  fi
+
+  if [ ! -L $1 ]; then
+    echo "$1: not a symbolic link"
+    return 1
+  fi
+
+  rm -f $1 && ln -s $2 $1
+}
 
 thisOS=$(uname)
 source "${PROJECTS}/profile/.func-${thisOS}"
