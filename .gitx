@@ -62,14 +62,12 @@ function gfinish {
 }
 
 function gcurse() {
-  command="${@}"
-
   gitDirs=$(find . -type d -maxdepth 2 -exec test -e {}/.git \; -print)
   for dir in ${gitDirs[@]}; do
     (
       echo "${dir}"
       cd "${dir}"
-      ${command}
+      exec "${@}"
     )
   done
 }
