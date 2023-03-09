@@ -61,6 +61,19 @@ function gfinish {
   git branch -D ${branch}
 }
 
+function gcurse() {
+  command="${@}"
+
+  gitDirs=$(find . -type d -maxdepth 2 -exec test -e {}/.git \; -print)
+  for dir in ${gitDirs[@]}; do
+    (
+      echo "${dir}"
+      cd "${dir}"
+      ${command}
+    )
+  done
+}
+
 source "${PROJECTS}/profile/.git-completion.sh"
 __git_complete gfinish _git_checkout
 __git_complete gck _git_checkout
