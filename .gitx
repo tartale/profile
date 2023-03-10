@@ -57,12 +57,12 @@ function gfinish {
   branch="${1}"
 
   git checkout $(gdefault)
-  git pull upstream $(gdefault)
+  git pull $(gremote) $(gdefault)
   git branch -D ${branch}
 }
 
 function gcurse() {
-  gitDirs=$(find . -type d -maxdepth 2 -exec test -e {}/.git \; -print)
+  gitDirs=$(find . -type d -maxdepth 1 -exec test -e {}/.git \; -print)
   for dir in ${gitDirs[@]}; do
     (
       echo "${dir}"
