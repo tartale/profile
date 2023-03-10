@@ -67,7 +67,7 @@ function gcurse() {
     (
       echo "${dir}"
       cd "${dir}"
-      exec "${@}"
+      /bin/bash -c "${@}"
     )
   done
 }
