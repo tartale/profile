@@ -16,6 +16,7 @@ complete -F _complete_cdp cdp
 
 function decode() {
   echo "${1}" | base64 -d
+  echo
 }
 
 function dockerclean() {
