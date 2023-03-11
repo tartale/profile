@@ -27,7 +27,7 @@ function dockerclean() {
 }
 
 function encode() {
-  echo "${1}" | base64
+  printf "${1}" | base64
 }
 
 function ff() {
