@@ -57,7 +57,7 @@ function kdaa() {
 function hx() {
   cmd="history"
   for g in $*; do
-    cmd="$cmd | grep ${g}"
+    cmd="$cmd | grep ${g} | cut -d ' ' -f 2-"
   done
   eval "${cmd}"
 }
