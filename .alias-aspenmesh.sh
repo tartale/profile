@@ -51,6 +51,7 @@ alias ktncp='(while true; do k delete ns ktunnel ; k create ns ktunnel; ktunnel 
 alias kuc='kops update cluster --yes'
 alias kvc='watch kops validate cluster'
 alias ldl="ls -lrt ${PROJECTS}/downloads"
+alias lt="$(gaa; gcm 'latest common'; gpush)"
 alias mvn='mvn -U'
 alias oh='kubectl apply -f https://git.io/JJ6dY'
 alias psu='ps auwx | grep tom.artale'
