@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export GO111MODULE="on"
+export GOPATH="${PROJECTS}/go"
+export GOBIN="${PROJECTS}/go/bin"

@@ -1,7 +1,8 @@
 #!/bin/bash
 
-export GO111MODULE="on"
-export GOPATH="${PROJECTS}/go"
-export GOBIN="${PROJECTS}/go/bin"
+# eval "$(goenv init - bash)"
 
-export PATH=${PATH}:${GOBIN}
+# if [ -e "${PROJECTS}/profile/.gox-aspenmesh" ]
+# then
+#     source "${PROJECTS}/profile/.gox-aspenmesh"
+# fi
