@@ -119,3 +119,4 @@ brew install jvm-mon
 brew uninstall jvm-mon
 brew install java11
 brew install jq
+brew install awscli

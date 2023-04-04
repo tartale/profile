@@ -37,6 +37,7 @@ alias ll='ls -la'
 alias nw='watch -n 1 lsof -nP -i'
 alias pe='code -n -w ${PROJECTS}/profile && source ${PROJECTS}/profile/.bash_profile'
 alias pidport='lsof -i -n -P'
+alias pidportg='lsof -i -n -P | grep'
 alias psa='ps -ao user,pid,ppid,start,time,command'
 alias psu="ps auwx | grep ${USER}"
 alias scp='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
