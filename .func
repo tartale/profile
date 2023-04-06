@@ -20,10 +20,11 @@ function decode() {
 }
 
 function dockerclean() {
-  docker images -f "dangling=true" -q | xargs docker rmi -f
-  docker rm -v $(docker ps -a -q -f status=exited)
-  docker volume ls -f 'dangling=true' -q | xargs docker volume rm
-  docker ps -a | egrep 'Exited.*(days|weeks|months)' | awk '{print $1}' | xargs docker rm -v
+  docker images -f "dangling=true" -q | xargs docker rmi -f || true
+  docker rm -v $(docker ps -a -q -f status=exited) || true
+  docker volume ls -f 'dangling=true' -q | xargs docker volume rm || true
+  docker ps -a | egrep 'Exited.*(days|weeks|months)' | awk '{print $1}' | xargs docker rm -v || true
+  docker system prune -f || true
 }
 
 function encode() {
