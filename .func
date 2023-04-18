@@ -31,6 +31,10 @@ function encode() {
   printf "${1}" | base64
 }
 
+function eg() {
+  env | grep "${1}"
+}
+
 function ff() {
   find . -type f -exec grep -l "${1}" {} \;
 }
