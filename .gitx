@@ -2,6 +2,10 @@
 
 git config --global user.email "tartale.work@gmail.com"
 git config --global user.name "Tom"
+git config --global credentials.username "tartale"
+git config --global core.excludesfile "~/.gitignore"
+git config --global pull.ff "only"
+git config --global url.ssh://git@github.com/.insteadof "https://github.com/"
 
 export MYGITHUB="git@github.com:tartale"
 export GITHUB="git@github.com:aspenmesh"
