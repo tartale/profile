@@ -120,3 +120,5 @@ brew uninstall jvm-mon
 brew install java11
 brew install jq
 brew install awscli
+brew install k9s
+brew install atomicparsley
