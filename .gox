@@ -1,8 +1,1 @@
 #!/bin/bash
-
-# eval "$(goenv init - bash)"
-
-# if [ -e "${PROJECTS}/profile/.gox-aspenmesh" ]
-# then
-#     source "${PROJECTS}/profile/.gox-aspenmesh"
-# fi

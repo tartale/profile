@@ -68,3 +68,11 @@ brew install awscli
 brew install k9s
 brew install atomicparsley
 brew install pixie
+brew install --cask altair-graphql-client
+brew install --cask microsoft-teams
+brew install ant
+brew install --cask powerphotos
+brew install --cask wireshark
+brew install qt
+brew install mounty
+brew install macfuse

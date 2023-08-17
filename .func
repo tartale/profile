@@ -62,9 +62,9 @@ function kdaa() {
 function hx() {
   cmd="history"
   for g in $*; do
-    cmd="$cmd | grep ${g} | cut -d ' ' -f 2-"
+    cmd="$cmd | grep ${g}"
   done
-  eval "${cmd}"
+  eval "${cmd} | cut -d ' ' -f 3-"
 }
 
 function myIP() {
@@ -89,7 +89,7 @@ function mvlink() {
 thisOS=$(uname)
 source "${PROJECTS}/profile/.func-${thisOS}"
 
-if [ -e "${PROJECTS}/profile/.func-aspenmesh" ]
-then
-    source "${PROJECTS}/profile/.func-aspenmesh"
-fi
+# if [ -e "${PROJECTS}/profile/.func-aspenmesh" ]
+# then
+#     source "${PROJECTS}/profile/.func-aspenmesh"
+# fi

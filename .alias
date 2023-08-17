@@ -35,11 +35,12 @@ alias k='kubectl'
 alias kec='kops edit cluster'
 alias ll='ls -la'
 alias nw='watch -n 1 lsof -nP -i'
-alias pe='code -n -w ${PROJECTS}/profile && source ${PROJECTS}/profile/.bash_profile'
+alias pe='code -n -w ${PROJECTS}/profile && source ${PROJECTS}/profile/.bash-profile'
 alias pidport='lsof -i -n -P'
 alias pidportg='lsof -i -n -P | grep'
 alias psa='ps -ao user,pid,ppid,start,time,command'
 alias psu="ps auwx | grep ${USER}"
+alias rosetta="env /usr/bin/arch -x86_64 /bin/bash --login"
 alias scp='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 alias ssh='ssh -t -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 alias speaknspell='while true; do IFS= read -r f; say $f; done'
