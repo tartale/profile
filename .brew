@@ -9,10 +9,6 @@ case "${arch}" in
       eval "$(/opt/homebrew/bin/brew shellenv)"
     ;;
     i386)
-      PATH="/usr/local/Homebrew/bin:${PATH}"
-      export PATH
-      eval "$(/usr/local/Homebrew/bin/brew shellenv)"
-      export HOMEBREW_PREFIX=/usr/local
-      export HOMEBREW_CELLAR=/usr/local/Cellar
+      eval "$(/usr/local/bin/brew shellenv)"
     ;;
 esac
