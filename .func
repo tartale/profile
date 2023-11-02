@@ -12,7 +12,8 @@ function cdp() {
 function _complete_cdp {
   _complete_dir_helper "${PROJECTS}"
 }
-complete -F _complete_cdp cdp
+# FIXME
+# complete -F _complete_cdp cdp 
 
 function decode() {
   echo "${1}" | base64 -d

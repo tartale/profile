@@ -3,78 +3,31 @@
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 brew install git
-brew install openssl
-brew cask install firefox
-brew cask install slack
-brew cask install visual-studio-code
-brew cask install goland
+brew install --cask firefox
+brew install --cask slack
+brew install --cask visual-studio-code
 brew install coreutils
-brew install bash-completion
 brew install jq
 brew install watch
-brew cask install postman
-brew cask install macdown
-brew cask install disk-inventory-x
-brew cask install docker
+brew install --cask postman
+brew install --cask macdown
+brew install --cask docker
 brew install pkg-config
 brew install dos2unix
 brew install nvm
 brew install jenv
-brew tap homebrew/cask-versions
-brew cask install vlc
 brew install gettext
 brew install pyenv
 brew install wget
-brew cask install wine-stable
-brew install winetricks
-brew install clang-format
-brew install cassandra
-brew install enscript
-brew install graphviz
 brew install stern
-brew install terraform
-brew install terraform-docs
-brew install hugo
-brew tap mike-engel/jwt-cli
-brew install jwt-cli
-brew install eksctl
-brew install istioctl
 brew install bash-completion@2
-brew install graphviz
-brew install operator-sdk
-brew install python-yq
-brew install circleci
 brew install curl
 brew install gh
-brew install yamllint
 brew install bats-core
 brew install shellcheck
-brew install circleci
-brew install ant
-brew install tivodecode
-brew install atomicparsley
-brew install handbrakecli
-brew install handbrake
 brew install autoconf automake libtool pkgconfig argtable ffmpeg sdl
-brew install mplayer
-brew install mediainfo
-brew install svn
-brew install qemu
-brew install zenmap
-brew install netsh
 brew install goenv
 brew install direnv
-brew install awscli
-brew install k9s
-brew install atomicparsley
-brew install pixie
-brew install --cask altair-graphql-client
-brew install --cask microsoft-teams
-brew install ant
-brew install --cask powerphotos
-brew install --cask wireshark
-brew install qt
-brew install mounty
-brew install macfuse
 brew install yarn
-brew install avidemux
+brew install svn
+brew install --cask iterm2

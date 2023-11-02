@@ -1,0 +1,18 @@
+#!/bin/bash
+
+brew install --cask disk-inventory-x
+brew install --cask vlc
+brew install ant
+brew install tivodecode
+brew install atomicparsley
+brew install handbrakecli
+brew install handbrake
+brew install mplayer
+brew install mediainfo
+brew install atomicparsley
+brew install pixie
+brew install --cask altair-graphql-client
+brew install --cask powerphotos
+brew install avidemux
+brew install --cask altair-graphql-client
+brew install --cask wireshark
