@@ -3,7 +3,7 @@
 unalias -a
 
 alias aenv='env | grep AWS'
-alias allgit='find $PROJECTS -name ".git" -exec dirname {} \;'
+alias allgit='find ${WORKSPACE} -name ".git" -exec dirname {} \;'
 alias awho='aws sts get-caller-identity'
 alias da='direnv allow'
 alias dp='docker system prune'

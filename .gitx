@@ -6,8 +6,8 @@ git config --global core.excludesfile "~/.gitignore"
 git config --global pull.ff "only"
 git config --global url.ssh://git@github.com/.insteadof "https://github.com/"
 
-export MYGITHUB="git@github.com:tartale"
-export GITHUB="git@github.com:aspenmesh"
+export GIT_ORIGIN="git@github.com:tartale"
+export GIT_UPSTREAM="git@github.com:tartale"
 
 function gdefault() (
   defaultBranch="${GIT_DEFAULT_BRANCH:-main}"
@@ -41,11 +41,11 @@ function gclone {
     exit
   fi
 
-  (cd $PROJECTS
-    git clone $MYGITHUB/$1.git
+  (cd ${WORKSPACE}
+    git clone "${GIT_ORIGIN}/$1.git"
     (
       cd $1
-      git remote add upstream $GITHUB/$1.git
+      git remote add upstream "${GIT_UPSTREAM}/$1.git"
       git fetch upstream
     )
   )

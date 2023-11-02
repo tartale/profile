@@ -1,4 +1,6 @@
 #!/bin/bash
 
+# export GIT_UPSTREAM="git@github.com:workday"
+
 git config --global user.email "tom.artale@workday.com"
 git config --global user.name "Tom Artale"
