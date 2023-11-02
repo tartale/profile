@@ -23,5 +23,5 @@ function publicIPFor() (
 function brewt() (
   local args="$*"
 
-  brew ${args} && echo "brew ${args}" >> "${PROJECTS}/profile/.brewfile"
+  brew ${args} && echo "brew ${args}" >> "${WORKSPACE}/profile/.brewfile"
 )

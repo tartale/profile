@@ -50,13 +50,13 @@ alias kpficsna='(while true; do kubectl port-forward -n istio-system $(kicsn | t
 alias ktncp='(while true; do k delete ns ktunnel ; k create ns ktunnel; ktunnel -v expose controlplane-local -n ktunnel 18001:18001; k delete ns ktunnel; done)'
 alias kuc='kops update cluster --yes'
 alias kvc='watch kops validate cluster'
-alias ldl="ls -lrt ${PROJECTS}/downloads"
+alias ldl="ls -lrt ${WORKSPACE}/downloads"
 alias lc='git add common; git commit -m "latest common"; $(gpush)'
 alias mvn='mvn -U'
 alias oh='kubectl apply -f https://git.io/JJ6dY'
 alias psu='ps auwx | grep tom.artale'
 alias remove-aspen-mesh.sh='$(issafe) && remove-aspen-mesh.sh $(basename $PWD)'
-alias sg="npm run rtkquery-codegen ${PROJECTS}/go/src/github.com/aspenmesh/apiserver/pkg/generated/api/public/controlplane/v1/service.swagger.json controlplane && \
-  cp -f ${PROJECTS}/go/src/github.com/aspenmesh/apiserver/pkg/generated/api/public/controlplane/v1/service.swagger.json ${PROJECTS}/client-ui/src/swagger-client/swagger.json"
+alias sg="npm run rtkquery-codegen ${WORKSPACE}/go/src/github.com/aspenmesh/apiserver/pkg/generated/api/public/controlplane/v1/service.swagger.json controlplane && \
+  cp -f ${WORKSPACE}/go/src/github.com/aspenmesh/apiserver/pkg/generated/api/public/controlplane/v1/service.swagger.json ${WORKSPACE}/client-ui/src/swagger-client/swagger.json"
 alias upgrade-aspen-mesh.sh='upgrade-aspen-mesh.sh $(basename $PWD)'
 alias ut='RUN_INT_TESTS="false" GINKGO_PKGS="pkg/eventmanager" make test'

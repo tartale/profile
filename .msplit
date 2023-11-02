@@ -16,7 +16,7 @@ function msplit() {
   filenameFormat="${songNoExt} - {instrument}.{codec}"
 
   (
-    cd "${PROJECTS}/spleeter"
+    cd "${WORKSPACE}/spleeter"
     python -m spleeter separate -p spleeter:5stems -o "${outputDir}" -f "${filenameFormat}" -c "m4a" \
       "${MUSIC_DIR}/${artist}/${album}/${song}"
   )

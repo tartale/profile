@@ -35,7 +35,7 @@ alias k='kubectl'
 alias kec='kops edit cluster'
 alias ll='ls -la'
 alias nw='watch -n 1 lsof -nP -i'
-alias pe='code -n -w ${PROJECTS}/profile && source ${PROJECTS}/profile/.bash-profile'
+alias pe='code -n -w ${WORKSPACE}/profile && source ${WORKSPACE}/profile/.bash-profile'
 alias pidport='lsof -i -n -P'
 alias pidportg='lsof -i -n -P | grep'
 alias psa='ps -ao user,pid,ppid,start,time,command'
@@ -51,8 +51,8 @@ alias up3='cd ../../../'
 alias up4='cd ../../../../'
 alias up5='cd ../../../../../'
 
-if [[ -e "${PROJECTS}/profile/.alias-aspenmesh.sh" ]]; then
-  source "${PROJECTS}/profile/.alias-aspenmesh.sh"
+if [[ -e "${WORKSPACE}/profile/.alias-aspenmesh.sh" ]]; then
+  source "${WORKSPACE}/profile/.alias-aspenmesh.sh"
 fi
 
-source "${PROJECTS}/profile/.alias-completion.sh"
+source "${WORKSPACE}/profile/.alias-completion.sh"

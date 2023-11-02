@@ -75,12 +75,12 @@ function gcurse() {
   done
 }
 
-source "${PROJECTS}/profile/.git-completion.sh"
+source "${WORKSPACE}/profile/.git-completion.sh"
 __git_complete gfinish _git_checkout
 __git_complete gck _git_checkout
 __git_complete gb _git_branch
 
-# if [ -e "${PROJECTS}/profile/.gitx-aspenmesh" ]
+# if [ -e "${WORKSPACE}/profile/.gitx-aspenmesh" ]
 # then
-#     source "${PROJECTS}/profile/.gitx-aspenmesh"
+#     source "${WORKSPACE}/profile/.gitx-aspenmesh"
 # fi

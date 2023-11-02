@@ -6,11 +6,11 @@ function ags() {
 }
 
 function cdp() {
-  cd "${PROJECTS}/$1"
+  cd "${WORKSPACE}/$1"
 }
 
 function _complete_cdp {
-  _complete_dir_helper "${PROJECTS}"
+  _complete_dir_helper "${WORKSPACE}"
 }
 # FIXME
 # complete -F _complete_cdp cdp 
@@ -88,9 +88,9 @@ function mvlink() {
 }
 
 thisOS=$(uname)
-source "${PROJECTS}/profile/.func-${thisOS}"
+source "${WORKSPACE}/profile/.func-${thisOS}"
 
-# if [ -e "${PROJECTS}/profile/.func-aspenmesh" ]
+# if [ -e "${WORKSPACE}/profile/.func-aspenmesh" ]
 # then
-#     source "${PROJECTS}/profile/.func-aspenmesh"
+#     source "${WORKSPACE}/profile/.func-aspenmesh"
 # fi
