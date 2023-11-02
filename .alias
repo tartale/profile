@@ -51,8 +51,8 @@ alias up3='cd ../../../'
 alias up4='cd ../../../../'
 alias up5='cd ../../../../../'
 
-if [[ -e "${WORKSPACE}/profile/.alias-aspenmesh.sh" ]]; then
-  source "${WORKSPACE}/profile/.alias-aspenmesh.sh"
+if [[ -e "${WORKSPACE}/profile/.alias-${PROJECT}.sh" ]]; then
+  source "${WORKSPACE}/profile/.alias-${PROJECT}.sh"
 fi
 
 source "${WORKSPACE}/profile/.alias-completion.sh"

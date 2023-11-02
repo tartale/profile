@@ -5,6 +5,12 @@ function ags() {
   aws secretsmanager get-secret-value --secret-id "${secretID}" --output json | jq -r '.SecretString' | jq
 }
 
+function brewt() (
+  local args="$*"
+
+  brew ${args} && echo "brew ${args}" >> "${WORKSPACE}/profile/.brewfile"
+)
+
 function cdp() {
   cd "${WORKSPACE}/$1"
 }
@@ -87,10 +93,27 @@ function mvlink() {
   rm -f $1 && ln -s $2 $1
 }
 
-thisOS=$(uname)
-source "${WORKSPACE}/profile/.func-${thisOS}"
+function publicIPFor() (
+  local interface="${1}"
 
-# if [ -e "${WORKSPACE}/profile/.func-aspenmesh" ]
-# then
-#     source "${WORKSPACE}/profile/.func-aspenmesh"
-# fi
+  if [ -z "${interface}" ]
+  then
+    >&2 echo "usage: publicIPFor <interface>"
+    return 1
+  fi
+
+  ip=$(ifconfig "${interface}" | awk '/inet / {print $2}')
+  if [ -z "${ip}" ]
+  then
+    >&2 echo "unable to find public IP for ${interface}"
+    return 1
+  fi
+
+  echo "${ip}"
+  return 0
+)
+
+if [ -e "${WORKSPACE}/profile/.func-${PROJECT}" ]
+then
+    source "${WORKSPACE}/profile/.func-${PROJECT}"
+fi

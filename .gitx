@@ -80,7 +80,7 @@ __git_complete gfinish _git_checkout
 __git_complete gck _git_checkout
 __git_complete gb _git_branch
 
-# if [ -e "${WORKSPACE}/profile/.gitx-aspenmesh" ]
-# then
-#     source "${WORKSPACE}/profile/.gitx-aspenmesh"
-# fi
+if [ -e "${WORKSPACE}/profile/.gitx-${PROJECT}" ]
+then
+    source "${WORKSPACE}/profile/.gitx-${PROJECT}"
+fi
