@@ -8,7 +8,7 @@ function ags() {
 function brewt() (
   local args="$*"
 
-  brew ${args} && echo "brew ${args}" >> "${WORKSPACE}/profile/.brewfile"
+  brew ${args} && echo "brew ${args}" >> "${WORKSPACE}/profile/.brewfile-${PROJECT}"
 )
 
 function cdp() {

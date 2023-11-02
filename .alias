@@ -55,4 +55,4 @@ if [[ -e "${WORKSPACE}/profile/.alias-${PROJECT}.sh" ]]; then
   source "${WORKSPACE}/profile/.alias-${PROJECT}.sh"
 fi
 
-source "${WORKSPACE}/profile/.alias-completion.sh"
+source "${WORKSPACE}/profile/.alias-completion"

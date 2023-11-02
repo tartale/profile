@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "${WORKSPACE}/profile/.bash-completion"
+source "${WORKSPACE}/profile/.shell-completion.${SHELLNAME}"
 source "${WORKSPACE}/profile/.env"
 source "${WORKSPACE}/profile/.alias"
 source "${WORKSPACE}/profile/.aws"

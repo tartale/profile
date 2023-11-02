@@ -35,3 +35,4 @@ brew install --cask iterm2
 if [[ -e "${WORKSPACE}/profile/.brewfile-${PROJECT}" ]]; then
   source "${WORKSPACE}/profile/.brewfile-${PROJECT}"
 fi
+brew install zsh-completions

@@ -21,6 +21,9 @@
 #  zstyle ':completion:*:*:git:*' script ~/.git-completion.bash
 #
 
+zstyle ':completion:*:*:git:*' script ./.git-completion.bash
+fpath=(~/.zsh $fpath)
+
 zstyle -T ':completion:*:*:git:*' tag-order && \
 	zstyle ':completion:*:*:git:*' tag-order 'common-commands'
 

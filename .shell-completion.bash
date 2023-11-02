@@ -1,8 +1,5 @@
 #!/bin/bash
 
-bcScript="/usr/local/etc/profile.d/bash_completion.sh"
-[[ $(uname -p) == "arm" ]] && bcScript="/opt/homebrew/etc/profile.d/bash_completion.sh"
-
 function _complete_dir_helper() {
   if [[ $# != 1 ]]; then
     echo "usage: _complete_dir_helper <dir>" >&2
