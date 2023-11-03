@@ -21,7 +21,9 @@
 #  zstyle ':completion:*:*:git:*' script ~/.git-completion.bash
 #
 
-zstyle ':completion:*:*:git:*' script ./.git-completion.bash
+thisScriptDir=${0:a:h}
+
+zstyle ':completion:*:*:git:*' script "${thisScriptDir}/.git-completion.bash"
 fpath=(~/.zsh $fpath)
 
 zstyle -T ':completion:*:*:git:*' tag-order && \
