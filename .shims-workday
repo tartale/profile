@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ "${SHELLNAME}" == "bash" ]]; then
+  eval $(manage bash)
+fi

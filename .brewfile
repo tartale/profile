@@ -31,8 +31,8 @@ brew install direnv
 brew install yarn
 brew install svn
 brew install --cask iterm2
+brew install zsh-completions
 
 if [[ -e "${WORKSPACE}/profile/.brewfile-${PROJECT}" ]]; then
   source "${WORKSPACE}/profile/.brewfile-${PROJECT}"
 fi
-brew install zsh-completions

@@ -15,3 +15,8 @@ export NODE_VERSION_PREFIX="v"
 
 export GOENV_GOPATH_PREFIX="${WORKSPACE}/gopath"
 eval "$(goenv init - bash)"
+
+if [ -e "${WORKSPACE}/profile/.shims-${PROJECT}" ]
+then
+  source "${WORKSPACE}/profile/.shims-${PROJECT}"
+fi

@@ -5,21 +5,16 @@ function ags() {
   aws secretsmanager get-secret-value --secret-id "${secretID}" --output json | jq -r '.SecretString' | jq
 }
 
-function brewt() (
+function brew() (
   local args="$*"
-
-  brew ${args} && echo "brew ${args}" >> "${WORKSPACE}/profile/.brewfile-${PROJECT}"
+  if [[ "${1}" == "install" ]]; then
+    $(which brew) ${args} && echo "brew ${args}" >> "${WORKSPACE}/profile/.brewfile-${PROJECT}"
+  fi
 )
 
 function cdp() {
   cd "${WORKSPACE}/$1"
 }
-
-function _complete_cdp {
-  _complete_dir_helper "${WORKSPACE}"
-}
-# FIXME
-# complete -F _complete_cdp cdp 
 
 function decode() {
   echo "${1}" | base64 -d
@@ -113,7 +108,6 @@ function publicIPFor() (
   return 0
 )
 
-if [ -e "${WORKSPACE}/profile/.func-${PROJECT}" ]
-then
-    source "${WORKSPACE}/profile/.func-${PROJECT}"
+if [ -e "${WORKSPACE}/profile/.func-${SHELLNAME}" ]; then
+  source "${WORKSPACE}/profile/.func-${SHELLNAME}"
 fi

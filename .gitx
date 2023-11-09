@@ -5,6 +5,7 @@ git config --global credentials.username "tartale"
 git config --global core.excludesfile "~/.gitignore"
 git config --global pull.ff "only"
 git config --global url.ssh://git@github.com/.insteadof "https://github.com/"
+git config --global submodule.recurse true
 
 export GIT_ORIGIN="git@github.com:tartale"
 export GIT_UPSTREAM="git@github.com:tartale"

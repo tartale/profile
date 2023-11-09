@@ -1,0 +1,9 @@
+#!/bin/bash
+
+brew tap homebrew/cask-versions
+brew tap --force-auto-update workday/oms ssh://git@bitbucket.workday.com:7999/brew/homebrew-wday.git
+brew install subversion
+brew install --cask zulu8
+brew install ant
+brew install tomcat@9
+brew install mysql@5.7
