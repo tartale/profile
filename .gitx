@@ -7,8 +7,8 @@ git config --global pull.ff "only"
 git config --global url.ssh://git@github.com/.insteadof "https://github.com/"
 git config --global submodule.recurse true
 
-export GIT_ORIGIN="git@github.com:tartale"
-export GIT_UPSTREAM="git@github.com:tartale"
+export GITHUB_ORIGIN="git@github.com:tartale"
+export GITHUB_UPSTREAM="git@github.com:tartale"
 
 function gdefault() (
   defaultBranch="${GIT_DEFAULT_BRANCH:-main}"
@@ -43,10 +43,10 @@ function gclone {
   fi
 
   (cd ${WORKSPACE}
-    git clone "${GIT_ORIGIN}/$1.git"
+    git clone "${GITHUB_ORIGIN}/$1.git"
     (
       cd $1
-      git remote add upstream "${GIT_UPSTREAM}/$1.git"
+      git remote add upstream "${GITHUB_UPSTREAM}/$1.git"
       git fetch upstream
     )
   )
