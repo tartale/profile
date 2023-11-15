@@ -7,3 +7,4 @@ brew install --cask zulu8
 brew install ant
 brew install tomcat@9
 brew install mysql@5.7
+brew install --cask intellij-idea
