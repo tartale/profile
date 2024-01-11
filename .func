@@ -37,7 +37,33 @@ function eg() {
   env | grep "${1}"
 }
 
+function fd() {
+  local cmd="find . -type d"
+  local args=()
+  for n in "$@"; do
+    args+=("-name *${n}*")
+  done
+  local argString
+  argString=$(IFS='|' ; echo "${args[*]}")
+  argString="${argString//|/ -o }"
+  cmd="$cmd ${argString}"
+  eval "${cmd}"
+}
+
 function ff() {
+  local cmd="find . -type f"
+  local args=()
+  for n in "$@"; do
+    args+=("-name *${n}*")
+  done
+  local argString
+  argString=$(IFS='|' ; echo "${args[*]}")
+  argString="${argString//|/ -o }"
+  cmd="$cmd ${argString}"
+  eval "${cmd}"
+}
+
+function ffg() {
   find . -type f -exec grep -l "${1}" {} \;
 }
 

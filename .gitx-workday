@@ -1,8 +1,13 @@
 #!/bin/bash
 
-export GITHUB_ORIGIN="git@ghe.megaleo.com:machine-learning"
+export GITHUB_ORIGIN="git@ghe.megaleo.com:tom-artale"
 export GITHUB_UPSTREAM="git@ghe.megaleo.com:machine-learning"
 
 git config --global credentials.username "tom-artale"
 git config --global user.email "tom.artale@workday.com"
 git config --global user.name "Tom Artale"
+
+function gdefault() (
+  defaultBranch="${GIT_DEFAULT_BRANCH:-master}"
+  echo "${defaultBranch}"
+)
