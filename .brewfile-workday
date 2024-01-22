@@ -9,3 +9,5 @@ brew install tomcat@9
 brew install mysql@5.7
 brew install --cask intellij-idea
 brew install awscli
+brew install gradle-completion
+brew install --cask zulu17

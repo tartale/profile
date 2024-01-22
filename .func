@@ -9,10 +9,13 @@ function brew() (
   local args="$*"
   if [[ "${1}" == "install" ]]; then
     $(which brew) ${args} && echo "brew ${args}" >> "${WORKSPACE}/profile/.brewfile-${PROJECT}"
+  else
+    $(which brew) ${args}
   fi
 )
 
 function cdp() {
+  # shellcheck disable=SC2164
   cd "${WORKSPACE}/$1"
 }
 

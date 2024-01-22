@@ -3,7 +3,7 @@
 git config --global user.email "tartale.work@gmail.com"
 git config --global user.name "Tom"
 git config --global credentials.username "tartale"
-git config --global core.excludesfile "~/.gitignore"
+git config --global core.excludesfile "${HOME}/.gitignore"
 git config --global pull.ff "only"
 git config --global url.ssh://git@github.com/.insteadof "https://github.com/"
 git config --global submodule.recurse true
@@ -68,11 +68,11 @@ function gfinish {
 
 function gcurse() {
   gitDirs=$(find . -type d -maxdepth 1 -exec test -e {}/.git \; -print)
-  for dir in ${gitDirs[@]}; do
+  for dir in "${gitDirs[@]}"; do
     (
       echo "${dir}"
       cd "${dir}" || exit
-      /bin/bash -c "${@}"
+      "${@}"
     )
   done
 }
