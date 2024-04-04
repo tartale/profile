@@ -19,6 +19,11 @@ function cdp() {
   cd "${WORKSPACE}/$1"
 }
 
+function curlWithStatus() {
+  curl -s --write-out '%{stderr}{"statusCode": %{http_code}}' "${@}" 2>&1 | jq -s
+}
+export -f curlWithStatus
+
 function decode() {
   echo "${1}" | base64 -d
   echo
