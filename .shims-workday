@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [[ "${SHELLNAME}" == "bash" ]]; then
   eval $(manage bash)

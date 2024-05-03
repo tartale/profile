@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 eval "$(pyenv init -)"
 export PATH=$(pyenv root)/shims:${PATH}
@@ -7,8 +7,8 @@ eval "$(jenv init -)"
 export PATH=$(jenv root)/shims:${PATH}
 
 export NVM_DIR="${HOME}/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 export NODE_VERSIONS="${HOME}/.nvm/versions/node"
 export NODE_VERSION_PREFIX="v"
@@ -16,7 +16,4 @@ export NODE_VERSION_PREFIX="v"
 export GOENV_GOPATH_PREFIX="${WORKSPACE}/gopath"
 eval "$(goenv init - bash)"
 
-if [ -e "${WORKSPACE}/profile/.shims-${PROJECT}" ]
-then
-  source "${WORKSPACE}/profile/.shims-${PROJECT}"
-fi
+includeCustoms "shims"

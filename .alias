@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 unalias -a
 
@@ -37,7 +37,7 @@ alias ll='ls -la'
 alias nw='watch -n 1 lsof -nP -i'
 alias pe='code -n -w ${WORKSPACE}/profile && source ${WORKSPACE}/profile/.profile'
 alias pidport='lsof -i -n -P'
-alias pidportg='lsof -i -n -P | grep'
+alias ppg='lsof -i -n -P | grep'
 alias psa='ps -ao user,pid,ppid,start,time,command'
 alias psu="ps auwx | grep ${USER}"
 alias rosetta="env /usr/bin/arch -x86_64 /bin/bash --login"
@@ -51,8 +51,4 @@ alias up3='cd ../../../'
 alias up4='cd ../../../../'
 alias up5='cd ../../../../../'
 
-if [[ -e "${WORKSPACE}/profile/.alias-${PROJECT}" ]]; then
-  source "${WORKSPACE}/profile/.alias-${PROJECT}"
-fi
-
-source "${WORKSPACE}/profile/.alias-completion"
+includeCustoms "alias" "completion"

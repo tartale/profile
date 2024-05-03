@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -33,6 +33,4 @@ brew install svn
 brew install --cask iterm2
 brew install zsh-completions
 
-if [[ -e "${WORKSPACE}/profile/.brewfile-${PROJECT}" ]]; then
-  source "${WORKSPACE}/profile/.brewfile-${PROJECT}"
-fi
+includeCustoms "brewfile"

@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 git config --global user.email "tartale.work@gmail.com"
 git config --global user.name "Tom"
@@ -82,7 +82,4 @@ __git_complete gfinish _git_checkout
 __git_complete gck _git_checkout
 __git_complete gb _git_branch
 
-if [ -e "${WORKSPACE}/profile/.gitx-${PROJECT}" ]
-then
-    source "${WORKSPACE}/profile/.gitx-${PROJECT}"
-fi
+includeCustoms "gitx"

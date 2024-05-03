@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2155
+
+function getToken() {
+  local hostname="${1}"
+  local tenant="${2}"
+  local authPath="ccx/oauth2/${tenant}/token"
+  local authUrl="https://${hostname}/${authPath}"
+
+  curlWithStatus -s -X POST "${authUrl}" \
+    -H "Authorization: Basic ${WD_SUV_BASIC_AUTH}" -H "content-type: application/x-www-form-urlencoded" -d "grant_type=refresh_token&refresh_token=${WD_SUV_REFRESH_TOKEN}" | \
+    jq -r 'map(select(.access_token)) | first | .access_token' 
+}
+export -f getToken
+
+
+function getSuvToken() {
+  local suvID="${WD_SUV_ID}"
+  local tenant="${WD_TENANT}"
+  local hostname="${suvID}.workdaysuv.com"
+
+  getToken "${hostname}" "${tenant}"
+}
+export -f getSuvToken
+
+
+function getHydraToken() {
+  local cluster="${WD_HYDRA_CLUSTER}"
+  local tenant="${WD_TENANT}"
+  local hostname="${cluster}-esbg-test.dev4.wdscylla.de"
+
+  getToken "${hostname}" "${tenant}"
+}
+export -f getHydraToken
+
+
+function wdAuthSuv() {
+    export WD_BEARER_TOKEN=$(getSuvToken)
+}
+export -f wdAuthSuv
+
+
+function wdAuthStaging() {
+    wcpcli auth:logout
+    wcpcli config:set wcpGateway STAGING
+    wcpcli auth:tenanted:login --tenant-alias=superzondaqa01
+    export WD_HOSTNAME="api.yadkrow.com"
+    export WD_TENANT="superzondaqa01"
+    export WD_BEARER_TOKEN=$(wcpcli config:show | grep wcpTenantAccessToken | sed 's|^[^:]*: *"||g' | sed 's|", *$||g' )
+}
+export -f wdAuthStaging
+
+
+function wdAuthProd() {    
+    wcpcli auth:logout
+    wcpcli config:set wcpGateway PROD
+    wcpcli auth:tenanted:login --tenant-alias=wdint_wcpdev1
+    export WD_HOSTNAME="api.workday.com"
+    export WD_TENANT="wdint_wcpdev1"
+    export WD_BEARER_TOKEN=$(wcpcli config:show | grep wcpTenantAccessToken | sed 's|^[^:]*: *"||g' | sed 's|", *$||g' )
+}
+export -f wdAuthProd

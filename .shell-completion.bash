@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function _complete_dir_helper() {
   if [[ $# != 1 ]]; then

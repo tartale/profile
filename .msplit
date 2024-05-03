@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export MUSIC_DIR="/Volumes/media/iTunes/iTunes Media/Music"
 

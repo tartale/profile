@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
+
+function includeCustoms() {
+  prefix="${1}"
+  suffix="${2}"
+  if [ -e "${WORKSPACE}/profile/.${prefix}.${SHELLNAME}" ]; then
+    source "${WORKSPACE}/profile/.${prefix}.${SHELLNAME}"
+  fi
+  if [ -e "${WORKSPACE}/profile/.${prefix}-${PROJECT}" ]
+  then
+    source "${WORKSPACE}/profile/.${prefix}-${PROJECT}"
+  fi  
+  if [ -e "${WORKSPACE}/profile/.${prefix}-${PROJECT}.${SHELLNAME}" ]
+  then
+    source "${WORKSPACE}/profile/.${prefix}-${PROJECT}.${SHELLNAME}"
+  fi
+  if [ -e "${WORKSPACE}/profile/.${prefix}-${suffix}" ]
+  then
+    source "${WORKSPACE}/profile/.${prefix}-${suffix}"
+  fi
+  if [ -e "${WORKSPACE}/profile/.${prefix}-${suffix}.${SHELLNAME}" ]
+  then
+    source "${WORKSPACE}/profile/.${prefix}-${suffix}.${SHELLNAME}"
+  fi
+}

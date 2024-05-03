@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export GITHUB_ORIGIN="git@ghe.megaleo.com:tom-artale"
 export GITHUB_UPSTREAM="git@ghe.megaleo.com:machine-learning"

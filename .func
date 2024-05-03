@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shellcheck disable=SC1083
+# shellcheck disable=SC1090
 
 function ags() {
   secretID="${1}"
@@ -20,7 +22,12 @@ function cdp() {
 }
 
 function curlWithStatus() {
-  curl -s --write-out '%{stderr}{"statusCode": %{http_code}}' "${@}" 2>&1 | jq -s
+  # shellcheck disable=SC2140
+  if [[ "${DEBUG}" == "true" ]]; then
+    set -x
+  fi
+  curl -s --write-out '%{stderr}{"statusCode": %{http_code}}\n' "${@}" 2>&1 | jq -s
+  set +x
 }
 export -f curlWithStatus
 
@@ -158,6 +165,4 @@ function psug() {
   eval "${cmd}"
 }
 
-if [ -e "${WORKSPACE}/profile/.func-${SHELLNAME}" ]; then
-  source "${WORKSPACE}/profile/.func-${SHELLNAME}"
-fi
+includeCustoms "func"

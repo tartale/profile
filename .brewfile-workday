@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 brew tap homebrew/cask-versions
 brew tap --force-auto-update workday/oms ssh://git@bitbucket.workday.com:7999/brew/homebrew-wday.git
@@ -11,3 +11,4 @@ brew install --cask intellij-idea
 brew install awscli
 brew install gradle-completion
 brew install --cask zulu17
+brew install nvm
