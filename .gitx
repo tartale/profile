@@ -17,9 +17,9 @@ function gdefault() (
 )
 
 function gremote() (
-  defaultRemote="upstream"
+  local defaultRemote="upstream"
   git remote | grep upstream > /dev/null 2>&1
-  exists="$?"
+  local exists="$?"
   if [[ ${exists} == 1 ]]; then
     defaultRemote="origin"
   fi
@@ -81,5 +81,3 @@ source "${PROFILE}/.git-completion.${SHELLNAME}"
 __git_complete gfinish _git_checkout
 __git_complete gck _git_checkout
 __git_complete gb _git_branch
-
-includeCustoms "gitx"

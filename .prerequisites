@@ -1,26 +1,25 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 
-function includeCustoms() {
-  prefix="${1}"
-  suffix="${2}"
-  if [ -e "${PROFILE}/.${prefix}.${SHELLNAME}" ]; then
-    source "${PROFILE}/.${prefix}.${SHELLNAME}"
+function sourceIf() {
+  local path="${1}"
+  if [[ -e "${path}" ]]; then
+    echo "sourcing file: ${path}"
+    source "${path}"
   fi
-  if [ -e "${PROFILE}/.${prefix}-${PROJECT}" ]
-  then
-    source "${PROFILE}/.${prefix}-${PROJECT}"
-  fi  
-  if [ -e "${PROFILE}/.${prefix}-${PROJECT}.${SHELLNAME}" ]
-  then
-    source "${PROFILE}/.${prefix}-${PROJECT}.${SHELLNAME}"
-  fi
-  if [ -e "${PROFILE}/.${prefix}-${suffix}" ]
-  then
-    source "${PROFILE}/.${prefix}-${suffix}"
-  fi
-  if [ -e "${PROFILE}/.${prefix}-${suffix}.${SHELLNAME}" ]
-  then
-    source "${PROFILE}/.${prefix}-${suffix}.${SHELLNAME}"
-  fi
+}
+
+function include() {
+  local prefix="${1}"
+  local includePaths=(
+    "${PROFILE}/.${prefix}"
+    "${PROFILE}/.${prefix}.${SHELLNAME}"
+    "${PROFILE}/.${prefix}-${PROJECT}"
+    "${PROFILE}/.${prefix}-${PROJECT}.${SHELLNAME}"
+    "${PROFILE}/.${prefix}-${PROJECT}-${PROJECT_EXT}"
+    "${PROFILE}/.${prefix}-${PROJECT}-${PROJECT_EXT}.${SHELLNAME}"
+  )
+  for includePath in "${includePaths[@]}"; do
+    sourceIf "${includePath}"
+  done
 }

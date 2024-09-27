@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2046
 
-if exists manage; then
+if installed manage; then
   eval $(manage bash)
 fi
