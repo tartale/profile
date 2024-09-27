@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 
+function installed() {
+  command -v "$1" >/dev/null 2>&1
+}
+
 function sourceIf() {
   local path="${1}"
   if [[ -e "${path}" ]]; then

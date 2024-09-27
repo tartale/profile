@@ -57,10 +57,6 @@ function eg() {
   env | grep "${1}"
 }
 
-function installed() {
-  command -v "$1" >/dev/null 2>&1
-}
-
 function fd() {
   local cmd="find . -type d"
   local args=()
