@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
+git config --global core.excludesfile "${HOME}/.gitignore"
+git config --global credentials.username "tartale"
+git config --global diff.tool "opendiff"
+git config --global difftool.prompt false
+git config --global merge.tool "opendiff"
+git config --global pull.ff "only"
+git config --global receive.denyCurrentBranch ignore
+git config --global submodule.recurse true
+git config --global url.ssh://git@github.com/.insteadof "https://github.com/"
 git config --global user.email "tartale.work@gmail.com"
 git config --global user.name "Tom"
-git config --global credentials.username "tartale"
-git config --global core.excludesfile "${HOME}/.gitignore"
-git config --global pull.ff "only"
-git config --global url.ssh://git@github.com/.insteadof "https://github.com/"
-git config --global submodule.recurse true
 
 export GITHUB_ORIGIN="git@github.com:tartale"
 export GITHUB_UPSTREAM="git@github.com:tartale"
