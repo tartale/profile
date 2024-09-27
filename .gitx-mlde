@@ -5,3 +5,4 @@ export GIT_SSL_NO_VERIFY=true
 export GITHUB_USER="$(git config --global --get credentials.username)"
 git config --global --replace-all url.https://${GITHUB_USER}:${GITHUB_ACCESS_TOKEN}@ghe.privatelinks.awswd/.insteadOf git@ghe.megaleo.com:
 git config --global --add         url.https://${GITHUB_USER}:${GITHUB_ACCESS_TOKEN}@ghe.privatelinks.awswd/.insteadOf https://ghe.megaleo.com/
+git config --global --replace-all receive.denyCurrentBranch ignore
