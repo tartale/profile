@@ -10,7 +10,7 @@ function ags() {
 function brew() (
   local args="$*"
   if [[ "${1}" == "install" || "${1}" == "tap" ]]; then
-    $(which brew) ${args} && echo "brew ${args}" >> "${WORKSPACE}/profile/.brewfile-${PROJECT}"
+    $(which brew) ${args} && echo "brew ${args}" >> "${PROFILE}/.brewfile-${PROJECT}"
   else
     $(which brew) ${args}
   fi

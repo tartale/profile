@@ -77,7 +77,7 @@ function gcurse() {
   done
 }
 
-source "${WORKSPACE}/profile/.git-completion.${SHELLNAME}"
+source "${PROFILE}/.git-completion.${SHELLNAME}"
 __git_complete gfinish _git_checkout
 __git_complete gck _git_checkout
 __git_complete gb _git_branch

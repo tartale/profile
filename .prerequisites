@@ -4,23 +4,23 @@
 function includeCustoms() {
   prefix="${1}"
   suffix="${2}"
-  if [ -e "${WORKSPACE}/profile/.${prefix}.${SHELLNAME}" ]; then
-    source "${WORKSPACE}/profile/.${prefix}.${SHELLNAME}"
+  if [ -e "${PROFILE}/.${prefix}.${SHELLNAME}" ]; then
+    source "${PROFILE}/.${prefix}.${SHELLNAME}"
   fi
-  if [ -e "${WORKSPACE}/profile/.${prefix}-${PROJECT}" ]
+  if [ -e "${PROFILE}/.${prefix}-${PROJECT}" ]
   then
-    source "${WORKSPACE}/profile/.${prefix}-${PROJECT}"
+    source "${PROFILE}/.${prefix}-${PROJECT}"
   fi  
-  if [ -e "${WORKSPACE}/profile/.${prefix}-${PROJECT}.${SHELLNAME}" ]
+  if [ -e "${PROFILE}/.${prefix}-${PROJECT}.${SHELLNAME}" ]
   then
-    source "${WORKSPACE}/profile/.${prefix}-${PROJECT}.${SHELLNAME}"
+    source "${PROFILE}/.${prefix}-${PROJECT}.${SHELLNAME}"
   fi
-  if [ -e "${WORKSPACE}/profile/.${prefix}-${suffix}" ]
+  if [ -e "${PROFILE}/.${prefix}-${suffix}" ]
   then
-    source "${WORKSPACE}/profile/.${prefix}-${suffix}"
+    source "${PROFILE}/.${prefix}-${suffix}"
   fi
-  if [ -e "${WORKSPACE}/profile/.${prefix}-${suffix}.${SHELLNAME}" ]
+  if [ -e "${PROFILE}/.${prefix}-${suffix}.${SHELLNAME}" ]
   then
-    source "${WORKSPACE}/profile/.${prefix}-${suffix}.${SHELLNAME}"
+    source "${PROFILE}/.${prefix}-${suffix}.${SHELLNAME}"
   fi
 }
