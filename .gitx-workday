@@ -11,5 +11,3 @@ function gdefault() (
   defaultBranch="${GIT_DEFAULT_BRANCH:-master}"
   echo "${defaultBranch}"
 )
-
-includeCustoms "gitx" "ec2"
