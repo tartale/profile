@@ -1,7 +1,7 @@
 #!/bin/bash
 
 arch=$(uname -p)
-os=$(uname -a)
+os=$(uname)
 if [[ "${os}" != "Darwin" ]]; then
   return 0
 fi
