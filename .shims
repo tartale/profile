@@ -1,19 +1,32 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1091,SC2155
 
-eval "$(pyenv init -)"
-export PATH=$(pyenv root)/shims:${PATH}
+if exists direnv; then
+    eval "$(direnv hook bash)"
+fi
 
-eval "$(jenv init -)"
-export PATH=$(jenv root)/shims:${PATH}
+if exists pyenv; then
+    eval "$(pyenv init -)"
+    export PATH=$(pyenv root)/shims:${PATH}
+fi
 
-export NVM_DIR="${HOME}/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+if exists jenv; then
+    eval "$(jenv init -)"
+    export PATH=$(jenv root)/shims:${PATH}
+fi
 
-export NODE_VERSIONS="${HOME}/.nvm/versions/node"
-export NODE_VERSION_PREFIX="v"
+if exists nvm; then
+    export NVM_DIR="${HOME}/.nvm"
+    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+    [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-export GOENV_GOPATH_PREFIX="${WORKSPACE}/gopath"
-eval "$(goenv init - bash)"
+    export NODE_VERSIONS="${HOME}/.nvm/versions/node"
+    export NODE_VERSION_PREFIX="v"
+fi
+
+if exists goenv; then
+    export GOENV_GOPATH_PREFIX="${WORKSPACE}/gopath"
+    eval "$(goenv init - bash)"
+fi
 
 includeCustoms "shims"

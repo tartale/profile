@@ -1,6 +1,10 @@
 #!/bin/bash
 
 arch=$(uname -p)
+os=$(uname -a)
+if [[ "${os}" != "Darwin" ]]; then
+  return 0
+fi
 
 case "${arch}" in
     arm)

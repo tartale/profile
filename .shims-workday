@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2046
 
-if [[ "${SHELLNAME}" == "bash" ]]; then
+if exists manage; then
   eval $(manage bash)
 fi
