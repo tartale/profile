@@ -26,6 +26,7 @@ alias gmt='go mod tidy && git add go.mod go.sum && git commit -vm "go mod tidy" 
 alias gpm='git pull $(gremote) $(gdefault)'
 alias gpush='git push origin $(gcb)'
 alias grs='git restore --staged'
+alias grv='git remote -v'
 alias gs='git status'
 alias gsu='git submodule update --init --recursive'
 alias gsul='git submodule update --remote --merge'
