@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2154
 
 unalias -a
 
@@ -24,6 +25,7 @@ alias gll='git log --graph --decorate --pretty=oneline --abbrev-commit --all'
 alias gmt='go mod tidy && git add go.mod go.sum && git commit -vm "go mod tidy" && $(gpush)'
 alias gpm='git pull $(gremote) $(gdefault)'
 alias gpush='git push origin $(gcb)'
+alias grs='git restore --staged'
 alias gs='git status'
 alias gsu='git submodule update --init --recursive'
 alias gsul='git submodule update --remote --merge'
@@ -39,7 +41,7 @@ alias pe='code -n -w ${WORKSPACE}/profile && source ${WORKSPACE}/profile/.profil
 alias pidport='lsof -i -n -P'
 alias ppg='lsof -i -n -P | grep'
 alias psa='ps -ao user,pid,ppid,start,time,command'
-alias psu="ps auwx | grep ${USER}"
+alias psu='ps auwx | grep "${USER}"'
 alias rosetta="env /usr/bin/arch -x86_64 /bin/bash --login"
 alias scp='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 alias ssh='ssh -t -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'

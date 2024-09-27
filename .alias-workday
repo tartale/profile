@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2139
 
-alias cdc="cd ${HOME}/code/omsroot"
+alias cdo="cd ${HOME}/code/omsroot"

@@ -1,28 +1,32 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2155
 
-function getToken() {
-  local hostname="${1}"
-  local tenant="${2}"
-  local authPath="ccx/oauth2/${tenant}/token"
-  local authUrl="https://${hostname}/${authPath}"
-
-  curlWithStatus -s -X POST "${authUrl}" \
-    -H "Authorization: Basic ${WD_SUV_BASIC_AUTH}" -H "content-type: application/x-www-form-urlencoded" -d "grant_type=refresh_token&refresh_token=${WD_SUV_REFRESH_TOKEN}" | \
-    jq -r 'map(select(.access_token)) | first | .access_token' 
+function decDocsBuild() {
+  (
+    cd "${WORKSPACE}/ml-dev-portal" || return 1
+    pnpm run clear && pnpm run download && pnpm run override "${WORKSPACE}/data-entry-check" && pnpm run rebuild && \
+      if [[ "${1}" == "start" ]]; then
+        pnpm run start
+      fi
+  )
 }
-export -f getToken
 
-
-function getSuvToken() {
-  local suvID="${WD_SUV_ID}"
-  local tenant="${WD_TENANT}"
-  local hostname="${suvID}.workdaysuv.com"
-
-  getToken "${hostname}" "${tenant}"
+function decDocsRebuild() {
+  (
+    cd "${WORKSPACE}/ml-dev-portal" || return 1
+    pnpm run override "${WORKSPACE}/data-entry-check" && pnpm run rebuild && \
+      if [[ "${1}" == "start" ]]; then
+        pnpm run start
+      fi
+  )
 }
-export -f getSuvToken
 
+function decDocsStart() {
+  (
+    cd "${WORKSPACE}/ml-dev-portal" || return 1
+    pnpm run start
+  )
+}
 
 function getHydraToken() {
   local cluster="${WD_HYDRA_CLUSTER}"
@@ -33,30 +37,98 @@ function getHydraToken() {
 }
 export -f getHydraToken
 
+function getSuvToken() {
+  local suvID="${WD_SUV_ID}"
+  local tenant="${WD_TENANT}"
+  local hostname="${suvID}.workdaysuv.com"
 
-function wdAuthSuv() {
-    export WD_BEARER_TOKEN=$(getSuvToken)
+  getToken "${hostname}" "${tenant}"
 }
-export -f wdAuthSuv
 
-
-function wdAuthStaging() {
-    wcpcli auth:logout
-    wcpcli config:set wcpGateway STAGING
-    wcpcli auth:tenanted:login --tenant-alias=superzondaqa01
-    export WD_HOSTNAME="api.yadkrow.com"
-    export WD_TENANT="superzondaqa01"
-    export WD_BEARER_TOKEN=$(wcpcli config:show | grep wcpTenantAccessToken | sed 's|^[^:]*: *"||g' | sed 's|", *$||g' )
+function getWdBasicAuth() {
+  printf "%s:%s" "${WD_USERNAME}" "${WD_PASSWORD}" | base64
 }
-export -f wdAuthStaging
+export -f getWdBasicAuth
 
+function getWdAuthHeader() {
+  if [[ -n "${WD_AUTH_ID}" ]]; then
+    printf "Authorization: ID %s" "${WD_AUTH_ID}"
+    return
+  fi
+  if [[ -n "${WD_BEARER_TOKEN}" ]]; then
+    printf "Authorization: Bearer %s" "${WD_BEARER_TOKEN}"
+    return
+  fi
+  if [[ -n "${WD_USERNAME}" && -n "${WD_PASSWORD}" ]]; then
+    printf "Authorization: Basic %s" "$(getWdBasicAuth)"
+    return
+  fi
+}
+export -f getWdAuthHeader
+
+function getToken() {
+  local hostname="${1}"
+  local tenant="${2}"
+  local authPath="ccx/oauth2/${tenant}/token"
+  local authUrl="https://${hostname}/${authPath}"
+  local basicAuth="$(getWdBasicAuth)"
+
+  curlWithStatus -s -X POST "${authUrl}" \
+    -H "Authorization: Basic ${basicAuth}" -H "content-type: application/x-www-form-urlencoded" \
+    -d "grant_type=refresh_token&refresh_token=${WD_REFRESH_TOKEN}" \
+    jq -r 'map(select(.access_token)) | first | .access_token' 
+}
+export -f getToken
+
+function getWdApiRoot() {
+  rootPath="${1}"
+  if [[ -n "${WD_TENANT}" ]]; then
+    rootPath="api/${rootPath}/${WD_TENANT}"
+  fi
+  echo "${rootPath}"
+}
+export -f getWdApiRoot
 
 function wdAuthProd() {    
-    wcpcli auth:logout
-    wcpcli config:set wcpGateway PROD
-    wcpcli auth:tenanted:login --tenant-alias=wdint_wcpdev1
-    export WD_HOSTNAME="api.workday.com"
-    export WD_TENANT="wdint_wcpdev1"
-    export WD_BEARER_TOKEN=$(wcpcli config:show | grep wcpTenantAccessToken | sed 's|^[^:]*: *"||g' | sed 's|", *$||g' )
+  tenant="${1:-wdint_wcpdev1}"
+  wcpcli auth:logout
+  wcpcli config:set wcpGateway PROD
+  wcpcli auth:tenanted:login --tenant-alias="${tenant}"
+  export WD_HOSTNAME="api.workday.com"
+  export WD_TENANT=""
+  export WD_BEARER_TOKEN=$(wcpcli config:show | jq -r '.wcpTenantAccessToken' )
 }
-export -f wdAuthProd
+
+function wdAuthStaging() {
+  tenant="${1:-superzondaqa01}"
+  wcpcli auth:logout
+  wcpcli config:set wcpGateway STAGING
+  wcpcli auth:tenanted:login --tenant-alias="${tenant}"
+  export WD_HOSTNAME="api.yadkrow.com"
+  export WD_TENANT=""
+  export WD_BEARER_TOKEN=$(wcpcli config:show | jq -r '.wcpTenantAccessToken' )
+}
+
+function wdAuthSuv() {
+  export WD_BEARER_TOKEN=$(getSuvToken)
+}
+
+function wdChangeSUV() {
+  suvID="${1:-WD_SUV_ID}"
+  tenant="${2:-super}"
+  export WD_SUV_ID="${suvID}"
+  export WD_HOSTNAME="${WD_SUV_ID}.workdaysuv.com"
+  export WD_TENANT="${tenant}"
+}
+
+function wdChangeHydra() {
+  hydraCluster="${1:-WD_HYDRA_CLUSTER}"
+  tenant="${2:-super}"
+  export WD_HYDRA_CLUSTER="${hydraCluster}"
+  export WD_HOSTNAME="${WD_HYDRA_CLUSTER}-services1.dev4.wdscylla.de"
+  export WD_TENANT="${tenant}"
+}
+
+function wdManage() {
+  run manage "${@}"
+}

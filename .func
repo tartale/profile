@@ -41,7 +41,12 @@ function dockerclean() {
   docker rm -v $(docker ps -a -q -f status=exited) || true
   docker volume ls -f 'dangling=true' -q | xargs docker volume rm || true
   docker ps -a | egrep 'Exited.*(days|weeks|months)' | awk '{print $1}' | xargs docker rm -v || true
+  docker buildx prune -f || true
   docker system prune -f || true
+}
+
+function dts() {
+  date +%Y-%m-%dT%H-%M-%S
 }
 
 function encode() {
@@ -164,5 +169,15 @@ function psug() {
   done
   eval "${cmd}"
 }
+
+function run() (
+  # shellcheck disable=SC2294
+  if (eval "${@}"); then
+    say "done"
+  else
+    say "error"
+  fi
+)
+export -f run
 
 includeCustoms "func"

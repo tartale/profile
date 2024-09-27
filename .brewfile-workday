@@ -12,3 +12,9 @@ brew install awscli
 brew install gradle-completion
 brew install --cask zulu17
 brew install nvm
+brew install --cask zulu17
+brew install --cask dbeaver-community
+brew install --cask dbeaver-community
+brew tap pt-ci/homebrew-casks git@ghe.megaleo.com:pt-ci/homebrew-casks.git
+brew install awscli
+brew install fswatch
