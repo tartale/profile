@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090
 
 git config --global core.excludesfile "${HOME}/.gitignore"
 git config --global credentials.username "tartale"
@@ -62,8 +63,8 @@ function gfinish {
   fi
   branch="${1}"
 
-  git checkout $(gdefault)
-  git pull $(gremote) $(gdefault)
+  git checkout "$(gdefault)"
+  git pull "$(gremote)" "$(gdefault)"
   git branch -D "${branch}"
 }
 
