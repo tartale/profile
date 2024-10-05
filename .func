@@ -76,7 +76,7 @@ function encode() {
 }
 
 function eg() {
-  env | grep "${1}"
+  env | grep -i "${1}"
 }
 
 function fd() {
