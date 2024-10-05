@@ -1,9 +1,31 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1083
-# shellcheck disable=SC1090
+# shellcheck disable=SC1083,SC1090,SC2086,SC2155
+
+function aar() {
+  local roleArn="${1}"; shift
+  local args="$*"
+  local out=$(aws sts assume-role --role-arn "${roleArn}" --role-session-name "assumed-role" ${args}) || return 1
+  local accessKeyId=$(jq -r '.Credentials.AccessKeyId' <<< "${out}") || return 1
+  local secretAccessKey=$(jq -r '.Credentials.SecretAccessKey' <<< "${out}") || return 1
+  local sessionToken=$(jq -r '.Credentials.SessionToken' <<< "${out}") || return 1
+  local assumedRoleUser=$(jq -r '.AssumedRoleUser' <<< "${out}") || return 1
+  export AWS_ACCESS_KEY_ID="${accessKeyId}"
+  export AWS_SECRET_ACCESS_KEY="${secretAccessKey}"
+  export AWS_SESSION_TOKEN="${sessionToken}"
+  echo "${assumedRoleUser}"
+}
+
+function alo() {
+  local who=$(aws sts get-caller-identity)
+  echo "logging out:"
+  echo "${who}"
+  unset AWS_ACCESS_KEY_ID
+  unset AWS_SECRET_ACCESS_KEY
+  unset AWS_SESSION_TOKEN
+}
 
 function ags() {
-  secretID="${1}"
+  local secretID="${1}"
   aws secretsmanager get-secret-value --secret-id "${secretID}" --output json | jq -r '.SecretString' | jq
 }
 
