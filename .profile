@@ -9,7 +9,7 @@
 #    export SHELLNAME="bash"
 #    export WORKSPACE="${HOMES}/workspace"
 #    export PROFILE="${WORKSPACE}/profile"
-#    export PROJECT="workday"
+#    export PROJECT="home"
 #    export PROJECT_EXT=""
 #    export OS="$(uname)"
 #    source "${PROFILE}/.profile"
