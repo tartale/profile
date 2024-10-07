@@ -6,6 +6,7 @@
 #    #!/bin/bash
 #    # shellcheck disable=SC1091,SC2155
 #
+#    export DEBUG="false"
 #    export SHELLNAME="bash"
 #    export WORKSPACE="${HOME}/workspace"
 #    export PROFILE="${WORKSPACE}/profile"

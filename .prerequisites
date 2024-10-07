@@ -8,7 +8,9 @@ function installed() {
 function sourceIf() {
   local path="${1}"
   if [[ -e "${path}" ]]; then
-    echo "sourcing file: ${path}" >&2
+    if [[ "${DEBUG}" == "true" ]]; then
+      echo "sourcing file: ${path}" >&2
+    fi
     source "${path}"
   fi
 }
