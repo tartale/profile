@@ -19,3 +19,11 @@ function pg() {
     fi
   done
 }
+
+function prm() {
+  p="${1}"
+  # Delete path by parts so we can never accidentally remove sub paths
+  PATH=${PATH//":${p}:"/":"} # delete any instances in the middle
+  PATH=${PATH/#"${p}:"/} # delete any instance at the beginning
+  PATH=${PATH/%":${p}"/} # delete any instance at the end
+}
