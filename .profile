@@ -7,7 +7,7 @@
 #    # shellcheck disable=SC1091,SC2155
 #
 #    export SHELLNAME="bash"
-#    export WORKSPACE="${HOMES}/workspace"
+#    export WORKSPACE="${HOME}/workspace"
 #    export PROFILE="${WORKSPACE}/profile"
 #    export PROJECT="home"
 #    export PROJECT_EXT=""
