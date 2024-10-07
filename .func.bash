@@ -6,13 +6,16 @@ function _complete_cdp {
 complete -F _complete_cdp cdp 
 
 function pg() {
-  if [ -z $1 ]; then
-    echo "usage: pg <path>"
-    return 1
-  fi
+  search="${1}"
   
   IFS=':' read -ra dirs <<< "${PATH}"
-  for d in "${dirs[@]}"; do 
-    [[ "${d}" =~ "${1}" ]] && echo $d
+  for d in "${dirs[@]}"; do
+    if [[ -f "${d}/${search}" ]]; then
+      echo "${d}/${search}"
+    elif [[ -n "${search}" ]]; then
+      [[ "${d}" =~ ${1} ]] && echo "${d}"
+    else
+      echo "${d}"
+    fi
   done
 }
