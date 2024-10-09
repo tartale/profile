@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1083,SC1090,SC2086,SC2155
+# shellcheck disable=SC1083,SC1090,SC2044,SC2086,SC2155,SC2164
 
 function aar() {
   local roleArn="${1}"; shift
@@ -39,12 +39,64 @@ function brew() (
 )
 
 function cdp() {
-  # shellcheck disable=SC2164
-  cd "${WORKSPACE}/$1"
+  cd "${WORKSPACE}/${1}"
+}
+
+function cxarch() {
+  local path="${1}"
+  local arch="$(uname -o)-$(uname -m)"
+  arch=$(echo "${arch}" | tr '[:upper:]' '[:lower:]')
+  arch="${arch/x86_64/x64}"
+  if [[ -z "${path}" ]]; then
+    echo "${arch}"
+    return 0
+  fi
+
+  case "${path}" in
+    *darwin*|*Darwin*)
+      arch="darwin"
+      ;;
+    *linux*|*Linux*)
+      arch="linux"
+      ;;
+  esac
+  case "${path}" in
+    *arm64*)
+      arch="${arch}-arm64"
+      ;;
+    *x64*)
+      arch="${arch}-x64"
+      ;;
+  esac
+  echo "${arch}"
+}
+
+function cxmatch() {
+  local path="${1}"
+  local thisArch=$(cxarch)
+  local pathArch=$(cxarch "${path}")
+  [[ "${thisArch}" == "${pathArch}" ]]
+}
+
+function cxdl() {
+  IFS=$'\n' read -r -d '' -a extensions < <( code --list-extensions --show-versions )
+
+  for e in "${extensions[@]}"; do
+      echo "downloading: ${e}"
+  done  
+}
+
+function cxinstall() {
+  local dir="${1:-$(pwd)}"
+
+  for path in $(find "${dir}" -name '*.vsix'); do
+    if cxmatch "${path}" ; then
+      code --install-extension "${path}"
+    fi
+  done
 }
 
 function curlWithStatus() {
-  # shellcheck disable=SC2140
   if [[ "${DEBUG}" == "true" ]]; then
     set -x
   fi
@@ -60,7 +112,7 @@ function decode() {
 
 function dockerclean() {
   docker images -f "dangling=true" -q | xargs docker rmi -f || true
-  docker rm -v $(docker ps -a -q -f status=exited) || true
+  docker rm -v "$(docker ps -a -q -f status=exited)" || true
   docker volume ls -f 'dangling=true' -q | xargs docker volume rm || true
   docker ps -a | egrep 'Exited.*(days|weeks|months)' | awk '{print $1}' | xargs docker rm -v || true
   docker buildx prune -f || true
