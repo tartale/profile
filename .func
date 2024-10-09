@@ -86,24 +86,58 @@ function cxdl() {
   done  
 }
 
-function cxinstall() {
+function cxInstallByTar() {
+  local srcPath="${1}"
+  local srcFilename="$(basename ${srcPath})"
+  local extDir="${VSCODE_EXTENSION_DIR:-${HOME}/.vscode/extensions}"
+  local destDir="${extDir}/$(rmext ${srcFilename})"
+  if [[ -e "${destDir}" ]]; then
+    echo "skipping install of existing extension: ${srcFilename}" >&2
+    return
+  fi
+  mkdir -p "${destDir}"
+  if debug || dryrun; then
+    echo "tar tvf ${srcPath} -C ${destDir} --strip-components=1" >&2
+    return
+  fi
+  tar xvf "${srcPath}" -C "${destDir}" --strip-components=1 
+}
+
+function cxInstallByCode() {
+  local path="${1}"
+  if dryrun; then
+    echo "code --install-extension ${path}" >&2
+    return
+  fi
+  code --install-extension "${path}"
+}
+
+function cxInstall() {
   local dir="${1:-$(pwd)}"
+  local cmd="cxInstallByCode"
+  if ! installed code ; then
+    cmd="cxInstallByTar"
+  fi
 
   for path in $(find "${dir}" -name '*.vsix'); do
     if cxmatch "${path}" ; then
-      code --install-extension "${path}"
+      eval "${cmd} ${path}"
     fi
   done
 }
 
 function curlWithStatus() {
-  if [[ "${DEBUG}" == "true" ]]; then
+  if debug; then
     set -x
   fi
   curl -s --write-out '%{stderr}{"statusCode": %{http_code}}\n' "${@}" 2>&1 | jq -s
   set +x
 }
 export -f curlWithStatus
+
+function debug() {
+  [[ "${DEBUG}" == "true" ]]
+}
 
 function decode() {
   echo "${1}" | base64 -d
@@ -117,6 +151,10 @@ function dockerclean() {
   docker ps -a | egrep 'Exited.*(days|weeks|months)' | awk '{print $1}' | xargs docker rm -v || true
   docker buildx prune -f || true
   docker system prune -f || true
+}
+
+function dryrun() {
+  [[ "${DRY_RUN}" == "true" ]]
 }
 
 function dts() {
@@ -208,6 +246,12 @@ function mvlink() {
   rm -f $1 && ln -s $2 $1
 }
 
+function rmext() {
+  path="${1}"
+  filename="$(basename ${path})"
+  echo "${filename%.*}"
+}
+
 function publicIPFor() (
   local interface="${1}"
 
@@ -230,16 +274,16 @@ function publicIPFor() (
 
 function psag() {
   cmd="ps -ao user,pid,ppid,start,time,command"
-  for g in $*; do
-    cmd="$cmd | grep ${g}"
+  for g in "${@}"; do
+    cmd="${cmd} | grep ${g}"
   done
   eval "${cmd}"
 }
 
 function psug() {
   cmd="ps auwx | grep ${USER}"
-  for g in $*; do
-    cmd="$cmd | grep ${g}"
+  for g in "${@}"; do
+    cmd="${cmd} | grep ${g}"
   done
   eval "${cmd}"
 }

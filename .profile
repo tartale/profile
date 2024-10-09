@@ -12,7 +12,6 @@
 #    export PROFILE="${WORKSPACE}/profile"
 #    export PROJECT="home"
 #    export PROJECT_EXT=""
-#    export OS="$(uname)"
 #    source "${PROFILE}/.profile"
 
 source "${PROFILE}/.prerequisites"

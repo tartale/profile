@@ -1,8 +1,40 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1090
+# shellcheck disable=SC1090,SC2155
+
+function include() {
+  local prefix="${1}"
+  local os="$(os)"
+  local includePaths=(
+    "${PROFILE}/.${prefix}"
+    "${PROFILE}/.${prefix}-${os}"
+    "${PROFILE}/.${prefix}-${os}.${SHELLNAME}"
+    "${PROFILE}/.${prefix}.${SHELLNAME}"
+    "${PROFILE}/.${prefix}-${PROJECT}"
+    "${PROFILE}/.${prefix}-${PROJECT}.${SHELLNAME}"
+    "${PROFILE}/.${prefix}-${PROJECT}-${PROJECT_EXT}"
+    "${PROFILE}/.${prefix}-${PROJECT}-${PROJECT_EXT}.${SHELLNAME}"
+  )
+  for includePath in "${includePaths[@]}"; do
+    sourceIf "${includePath}"
+  done
+}
 
 function installed() {
   command -v "$1" >/dev/null 2>&1
+}
+
+function os() {
+  local thisOs="$(uname -s)"
+  case "${thisOs}" in
+    Darwin)
+      echo "macos"
+      return
+      ;;
+    *Linux*|*linux*)
+      echo "linux"
+      return
+      ;;
+  esac
 }
 
 function sourceIf() {
@@ -13,19 +45,4 @@ function sourceIf() {
     fi
     source "${path}"
   fi
-}
-
-function include() {
-  local prefix="${1}"
-  local includePaths=(
-    "${PROFILE}/.${prefix}"
-    "${PROFILE}/.${prefix}.${SHELLNAME}"
-    "${PROFILE}/.${prefix}-${PROJECT}"
-    "${PROFILE}/.${prefix}-${PROJECT}.${SHELLNAME}"
-    "${PROFILE}/.${prefix}-${PROJECT}-${PROJECT_EXT}"
-    "${PROFILE}/.${prefix}-${PROJECT}-${PROJECT_EXT}.${SHELLNAME}"
-  )
-  for includePath in "${includePaths[@]}"; do
-    sourceIf "${includePath}"
-  done
 }
