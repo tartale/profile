@@ -18,6 +18,54 @@ function gdefault() (
   echo "${defaultBranch}"
 )
 
+function gclone {
+  if [ -z "$1" ]
+  then
+    echo "usage:  gclone <repository>"
+    exit
+  fi
+
+  (cd "${WORKSPACE}" || exit
+    git clone "${GITHUB_ORIGIN}/$1.git"
+    (
+      cd "$1" || exit
+      git remote add upstream "${GITHUB_UPSTREAM}/$1.git"
+      git fetch upstream
+    )
+  )
+}
+
+function gcurse() {
+  gitDirs=$(find . -type d -maxdepth 1 -exec test -e {}/.git \; -print)
+  for dir in "${gitDirs[@]}"; do
+    (
+      echo "${dir}"
+      cd "${dir}" || exit
+      "${@}"
+    )
+  done
+}
+
+function gfinish() {
+  if [ -z "$1" ]
+  then
+    echo "usage:  gfinish <branch>"
+    return
+  fi
+  branch="${1}"
+
+  git checkout "$(gdefault)"
+  git pull "$(gremote)" "$(gdefault)"
+  git branch -D "${branch}"
+}
+
+function gpushall() {
+  IFS=$'\n' read -r -d '' -a remotes < <( git remote )
+  for r in "${remotes[@]}"; do
+    git push "${r}" "$(gcb)" "${@}"
+  done
+}
+
 function gremote() (
   local defaultRemote="upstream"
   git remote | grep upstream > /dev/null 2>&1
@@ -37,47 +85,6 @@ function gsquash() (
   fi
   git reset --soft "HEAD~${1}" && git commit -vm "${2}"
 )
-
-function gclone {
-  if [ -z "$1" ]
-  then
-    echo "usage:  gclone <repository>"
-    exit
-  fi
-
-  (cd "${WORKSPACE}" || exit
-    git clone "${GITHUB_ORIGIN}/$1.git"
-    (
-      cd "$1" || exit
-      git remote add upstream "${GITHUB_UPSTREAM}/$1.git"
-      git fetch upstream
-    )
-  )
-}
-
-function gfinish {
-  if [ -z "$1" ]
-  then
-    echo "usage:  gfinish <branch>"
-    return
-  fi
-  branch="${1}"
-
-  git checkout "$(gdefault)"
-  git pull "$(gremote)" "$(gdefault)"
-  git branch -D "${branch}"
-}
-
-function gcurse() {
-  gitDirs=$(find . -type d -maxdepth 1 -exec test -e {}/.git \; -print)
-  for dir in "${gitDirs[@]}"; do
-    (
-      echo "${dir}"
-      cd "${dir}" || exit
-      "${@}"
-    )
-  done
-}
 
 source "${PROFILE}/.git-completion.${SHELLNAME}"
 __git_complete gfinish _git_checkout

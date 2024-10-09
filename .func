@@ -82,7 +82,7 @@ function cxdl() {
   IFS=$'\n' read -r -d '' -a extensions < <( code --list-extensions --show-versions )
 
   for e in "${extensions[@]}"; do
-      echo "downloading: ${e}"
+    echo "downloading: ${e}"
   done  
 }
 
