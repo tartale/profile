@@ -120,7 +120,7 @@ function cxInstall() {
   fi
 
   for path in $(find "${dir}" -name '*.vsix'); do
-    if [[ "${path}" =~ *pack* ]]; then
+    if [[ "${path}" =~ .*pack.* ]]; then
       echo "skipping install of pack extension: $(basename ${path})" >&2
       continue
     fi
