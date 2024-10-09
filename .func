@@ -44,7 +44,7 @@ function cdp() {
 
 function cxarch() {
   local path="${1}"
-  local arch="$(uname -o)-$(uname -m)"
+  local arch="$(uname -s)-$(uname -m)"
   arch=$(echo "${arch}" | tr '[:upper:]' '[:lower:]')
   arch="${arch/x86_64/x64}"
   if [[ -z "${path}" ]]; then
@@ -106,10 +106,10 @@ function cxInstallByTar() {
 function cxInstallByCode() {
   local path="${1}"
   if dryrun; then
-    echo "code --install-extension ${path}" >&2
+    echo "code --verbose --install-extension ${path}" >&2
     return
   fi
-  code --install-extension "${path}"
+  code --verbose --install-extension "${path}"
 }
 
 function cxInstall() {
