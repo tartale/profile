@@ -109,7 +109,7 @@ function cxInstallByCode() {
     echo "code --verbose --install-extension ${path}" >&2
     return
   fi
-  code --verbose --install-extension "${path}"
+  (trap 'echo "aborting install"; exit' SIGINT; code --verbose --install-extension "${path}")
 }
 
 function cxInstall() {
@@ -120,6 +120,10 @@ function cxInstall() {
   fi
 
   for path in $(find "${dir}" -name '*.vsix'); do
+    if [[ "${path}" =~ *pack* ]]; then
+      echo "skipping install of pack extension: $(basename ${path})" >&2
+      continue
+    fi
     if cxmatch "${path}" ; then
       eval "${cmd} ${path}"
     fi
