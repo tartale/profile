@@ -82,7 +82,7 @@ function cxdl() {
   IFS=$'\n' read -r -d '' -a extensions < <( code --list-extensions --show-versions )
 
   for e in "${extensions[@]}"; do
-      echo "downloading: ${e}"
+    echo "downloading: ${e}"
   done  
 }
 
@@ -221,8 +221,8 @@ function kdaa() {
 
 function hx() {
   cmd="history"
-  for g in $*; do
-    cmd="$cmd | grep ${g}"
+  for g in "${@}"; do
+    cmd="${cmd} | grep ${g}"
   done
   eval "${cmd} | cut -c 8-"
 }
