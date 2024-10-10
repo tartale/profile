@@ -90,28 +90,32 @@ function cxDownloadExtension() {
   mkdir -p "${outputDir}"
   if [[ -n "${platform}" ]]; then
     url="${url}?targetPlatform=${platform}"
-    outputPath="${outputPath/.vsix/@${targetPlatform}.vsix}"
+    outputPath="${outputPath/.vsix/@${platform}.vsix}"
   fi
   if debug; then
-    echo "extension: ${e}; url: ${url}" >&2
+    echo "extension: ${extension}; url: ${url}" >&2
   fi
-  echo "downloading: ${e} to ${outputPath}"
+  echo "downloading: ${extension} to ${outputPath}"
   local statusCode=$(curlWithStatus --output "${outputPath}" "${url}" | jq -r '.[0].statusCode')
   if [[ "${statusCode}" != "200" ]]; then
-    echo "error downloading ${e}; status code: ${statusCode}" >&2
+    echo "error downloading ${extension}; status code: ${statusCode}" >&2
     return
   fi
   if [[ -n "${platform}" ]]; then
     return
   fi
   local manifest="$(unzip -p ${outputPath} extension.vsixmanifest)"
-  local targetPlatform="$(xq -r '.PackageManifest.Metadata.Identity.["@TargetPlatform"]' <<< ${manifest} )"
-  if [[ "${targetPlatform}" == "null" ]]; then
+  local manifestTargetPlatform="$(xq -r '.PackageManifest.Metadata.Identity.["@TargetPlatform"]' <<< ${manifest} )"
+  if [[ "${manifestTargetPlatform}" == "null" ]]; then
     return
   fi
-  local newOutputPath="${outputPath/.vsix/@${targetPlatform}.vsix}"
+  local newOutputPath="${outputPath/.vsix/@${manifestTargetPlatform}.vsix}"
   echo "renaming platform-specific extension to ${newOutputPath}"
   mv "${outputPath}" "${newOutputPath}"
+  read -r -a platforms <<< "${VSCODE_EXTENSION_PLATFORMS}"
+  for p in "${platforms[@]}"; do
+    cxDownloadExtension "${extension}" "${p}"
+  done
 }
 
 function cxDownload() {
