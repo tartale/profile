@@ -42,7 +42,7 @@ function cdp() {
   cd "${WORKSPACE}/${1}"
 }
 
-function cxarch() {
+function cxArch() {
   local path="${1}"
   local arch="$(uname -s)-$(uname -m)"
   arch=$(echo "${arch}" | tr '[:upper:]' '[:lower:]')
@@ -71,43 +71,45 @@ function cxarch() {
   echo "${arch}"
 }
 
-function cxmatch() {
+function cxArchMatch() {
   local path="${1}"
-  local thisArch=$(cxarch)
-  local pathArch=$(cxarch "${path}")
+  local thisArch=$(cxArch)
+  local pathArch=$(cxArch "${path}")
   [[ "${thisArch}" == "${pathArch}" ]]
 }
 
 function cxDownload() {
   outputDir="${VSCODE_EXTENSION_DIR:-$(pwd)}"
-  IFS=$'\n' read -r -d '' -a extensions < <( code --list-extensions --show-versions )
 
+  mkdir -p "${outputDir}"
+  IFS=$'\n' read -r -d '' -a extensions < <( code --list-extensions --show-versions )
+  
   for e in "${extensions[@]}"; do
     local publisher=$(cut -d '.' -f 1 <<< "${e}")
     local package=$(cut -d '.' -f 2- <<< "${e}" | cut -d '@' -f 1)
     local version=$(cut -d '@' -f 2- <<< "${e}")
     local url="https://${publisher}.gallery.vsassets.io/_apis/public/gallery/publisher/${publisher}/extension/${package}/${version}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
+    local outputPath="${outputDir}/${publisher}.${package}-${version}.vsix"
 
-    echo "downloading: ${e} to ${outputDir}"
-    curlWithStatus --output "${outputDir}/${publisher}.${package}-${version}.vsix" ${url}
+    if debug; then
+      echo "extension: ${e}; url: ${url}" >&2
+    fi
+    echo "downloading: ${e} to ${outputPath}"
+    local statusCode=$(curlWithStatus --output "${outputPath}" "${url}" | jq -r '.[0].statusCode')
+    if [[ "${statusCode}" != "200" ]]; then
+      echo "error downloading ${e}; status code: ${statusCode}" >&2
+      continue
+    fi
+    local manifest="$(unzip -p ${outputPath} extension.vsixmanifest)"
+    local targetPlatform="$(xq -r '.PackageManifest.Metadata.Identity.["@TargetPlatform"]' <<< ${manifest} )"
+    if [[ "${targetPlatform}" == "null" ]]; then
+      continue
+    fi
+    local newOutputPath="${outputPath/.vsix/@${targetPlatform}.vsix}"
+    echo "renaming platform-specific extension to ${newOutputPath}"
+    mv "${outputPath}" "${newOutputPath}"
+    # TODO - add ?targetPlatform= and download more?
   done  
-}
-
-function cxInstallByTar() {
-  local srcPath="${1}"
-  local srcFilename="$(basename ${srcPath})"
-  local extDir="${VSCODE_EXTENSION_DIR:-${HOME}/.vscode/extensions}"
-  local destDir="${extDir}/$(rmext ${srcFilename})"
-  if [[ -e "${destDir}" ]]; then
-    echo "skipping install of existing extension: ${srcFilename}" >&2
-    return
-  fi
-  mkdir -p "${destDir}"
-  if debug || dryrun; then
-    echo "tar tvf ${srcPath} -C ${destDir} --strip-components=1" >&2
-    return
-  fi
-  tar xvf "${srcPath}" -C "${destDir}" --strip-components=1 
 }
 
 function cxInstallByCode() {
@@ -121,18 +123,14 @@ function cxInstallByCode() {
 
 function cxInstall() {
   local dir="${1:-$(pwd)}"
-  local cmd="cxInstallByCode"
-  if ! installed code ; then
-    cmd="cxInstallByTar"
-  fi
 
   for path in $(find "${dir}" -name '*.vsix'); do
     if [[ "${path}" =~ .*pack.* ]]; then
       echo "skipping install of pack extension: $(basename ${path})" >&2
       continue
     fi
-    if cxmatch "${path}" ; then
-      eval "${cmd} ${path}"
+    if cxArchMatch "${path}" ; then
+      cxInstallByCode "${path}"
     fi
   done
 }
