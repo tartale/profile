@@ -118,7 +118,7 @@ function gitIgnoreGlobal() {
   done
 }
 
-gitIgnoreGlobal '.DS_Store' '.*-secrets' '*~'
+gitIgnoreGlobal '.DS_Store' '.*-secrets' '*~' '.idea/' '.vscode/' '.envrc'
 
 source "${PROFILE}/.git-completion.${SHELLNAME}"
 __git_complete gfinish _git_checkout
