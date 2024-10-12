@@ -9,7 +9,6 @@ git config --global submodule.recurse true
 git config --global url.ssh://git@github.com/.insteadof "https://github.com/"
 git config --global user.email "tartale.work@gmail.com"
 git config --global user.name "Tom"
-
 export GITHUB_ORIGIN="git@github.com:tartale"
 export GITHUB_UPSTREAM="git@github.com:tartale"
 
@@ -58,6 +57,15 @@ function gcurse() {
   done
 }
 
+function gchanged() {
+  status="$(git status -s 2>/dev/null)"
+  if [[ -n "${status}" ]]; then
+    echo "---> has changes" >&2
+    return 1
+  fi
+}
+export -f gchanged
+
 function gfinish() {
   if [ -z "$1" ]
   then
@@ -97,6 +105,20 @@ function gsquash() (
   fi
   git reset --soft "HEAD~${1}" && git commit -vm "${2}"
 )
+
+function gitIgnoreGlobal() {
+  gitIgnorePath="$(git config --get core.excludesFile)"
+  touch "${gitIgnorePath}"
+  read -r -a args <<< "${@}"
+  for arg in "${args[@]}"; do
+    if ! grep "${arg}" "${gitIgnorePath}" >/dev/null 2>&1; then
+      echo "adding ${arg} to ${gitIgnorePath}"
+      echo "${arg}" >> "${gitIgnorePath}"
+    fi
+  done
+}
+
+gitIgnoreGlobal '.DS_Store' '.*-secrets' '*~'
 
 source "${PROFILE}/.git-completion.${SHELLNAME}"
 __git_complete gfinish _git_checkout
