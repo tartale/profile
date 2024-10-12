@@ -42,113 +42,6 @@ function cdp() {
   cd "${WORKSPACE}/${1}"
 }
 
-function cxArch() {
-  local path="${1}"
-  local arch="$(uname -s)-$(uname -m)"
-  arch=$(echo "${arch}" | tr '[:upper:]' '[:lower:]')
-  arch="${arch/x86_64/x64}"
-  if [[ -z "${path}" ]]; then
-    echo "${arch}"
-    return 0
-  fi
-
-  case "${path}" in
-    *darwin*|*Darwin*)
-      arch="darwin"
-      ;;
-    *linux*|*Linux*)
-      arch="linux"
-      ;;
-  esac
-  case "${path}" in
-    *arm64*)
-      arch="${arch}-arm64"
-      ;;
-    *x64*)
-      arch="${arch}-x64"
-      ;;
-  esac
-  echo "${arch}"
-}
-
-function cxArchMatch() {
-  local path="${1}"
-  local thisArch=$(cxArch)
-  local pathArch=$(cxArch "${path}")
-  [[ "${thisArch}" == "${pathArch}" ]]
-}
-
-function cxDownloadExtension() {
-  local outputDir="${VSCODE_EXTENSION_DIR:-$(pwd)}"
-  local extension="${1}"
-  local publisher=$(cut -d '.' -f 1 <<< "${extension}")
-  local package=$(cut -d '.' -f 2- <<< "${extension}" | cut -d '@' -f 1)
-  local version=$(cut -d '@' -f 2- <<< "${extension}")
-  local platform="${2}"
-  local url="https://${publisher}.gallery.vsassets.io/_apis/public/gallery/publisher/${publisher}/extension/${package}/${version}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
-  local outputPath="${outputDir}/${publisher}.${package}-${version}.vsix"
-  mkdir -p "${outputDir}"
-  if [[ -n "${platform}" ]]; then
-    url="${url}?targetPlatform=${platform}"
-    outputPath="${outputPath/.vsix/@${platform}.vsix}"
-  fi
-  if debug; then
-    echo "extension: ${extension}; url: ${url}" >&2
-  fi
-  echo "downloading: ${extension} to ${outputPath}"
-  local statusCode=$(curlWithStatus --output "${outputPath}" "${url}" | jq -r '.[0].statusCode')
-  if [[ "${statusCode}" != "200" ]]; then
-    echo "error downloading ${extension}; status code: ${statusCode}" >&2
-    return
-  fi
-  if [[ -n "${platform}" ]]; then
-    return
-  fi
-  local manifest="$(unzip -p ${outputPath} extension.vsixmanifest)"
-  local manifestTargetPlatform="$(xq -r '.PackageManifest.Metadata.Identity.["@TargetPlatform"]' <<< ${manifest} )"
-  if [[ "${manifestTargetPlatform}" == "null" ]]; then
-    return
-  fi
-  local newOutputPath="${outputPath/.vsix/@${manifestTargetPlatform}.vsix}"
-  echo "renaming platform-specific extension to ${newOutputPath}"
-  mv "${outputPath}" "${newOutputPath}"
-  read -r -a platforms <<< "${VSCODE_EXTENSION_PLATFORMS}"
-  for p in "${platforms[@]}"; do
-    cxDownloadExtension "${extension}" "${p}"
-  done
-}
-
-function cxDownload() {
-  IFS=$'\n' read -r -d '' -a extensions < <( code --list-extensions --show-versions )
-  
-  for e in "${extensions[@]}"; do
-    cxDownloadExtension "${e}"
-  done
-}
-
-function cxInstallByCode() {
-  local path="${1}"
-  if dryrun; then
-    echo "code --verbose --install-extension ${path}" >&2
-    return
-  fi
-  (trap 'echo "aborting install"; exit' SIGINT; code --verbose --install-extension "${path}")
-}
-
-function cxInstall() {
-  local dir="${1:-$(pwd)}"
-
-  for path in $(find "${dir}" -name '*.vsix'); do
-    if [[ "${path}" =~ .*pack.* ]]; then
-      echo "skipping install of pack extension: $(basename ${path})" >&2
-      continue
-    fi
-    if cxArchMatch "${path}" ; then
-      cxInstallByCode "${path}"
-    fi
-  done
-}
-
 function curlWithStatus() {
   if debug; then
     set -x
@@ -157,10 +50,6 @@ function curlWithStatus() {
   set +x
 }
 export -f curlWithStatus
-
-function debug() {
-  [[ "${DEBUG}" == "true" ]]
-}
 
 function decode() {
   echo "${1}" | base64 -d
@@ -174,10 +63,6 @@ function dockerclean() {
   docker ps -a | egrep 'Exited.*(days|weeks|months)' | awk '{print $1}' | xargs docker rm -v || true
   docker buildx prune -f || true
   docker system prune -f || true
-}
-
-function dryrun() {
-  [[ "${DRY_RUN}" == "true" ]]
 }
 
 function dts() {

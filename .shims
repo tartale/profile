@@ -27,4 +27,5 @@ fi
 if installed goenv; then
     export GOENV_GOPATH_PREFIX="${WORKSPACE}/gopath"
     eval "$(goenv init - bash)"
+    export PATH=$(goenv root)/shims:${PATH}
 fi

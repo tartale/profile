@@ -36,7 +36,19 @@ function gclone {
 }
 
 function gcurse() {
-  gitDirs=$(find . -type d -maxdepth 1 -exec test -e {}/.git \; -print)
+  read -r -a args <<< "${@}"
+  gitDirs=()
+  for arg in "${args[@]}"; do
+    if [[ -d "${arg}" ]]; then
+      gitDirs+=("${arg}")
+      shift
+    else
+      break
+    fi
+  done
+  if [[ -z "${gitDirs}" ]]; then
+    IFS=$'\n' read -r -d '' -a gitDirs < <( find . -maxdepth 1 -type d -exec test -e {}/.git \; -print && printf '\0' )
+  fi
   for dir in "${gitDirs[@]}"; do
     (
       echo "${dir}"
