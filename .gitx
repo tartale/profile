@@ -50,7 +50,7 @@ function gcurse() {
     IFS=$'\n' read -r -d '' -a gitDirs < <( find . -maxdepth 1 -type d -exec test -e {}/.git \; -print && printf '\0' )
   fi
   for dir in "${gitDirs[@]}"; do
-    echo "${dir}"
+    echo "${dir}" >&2
     (direnv_cd "${dir}" && "${@}")
   done
 }
@@ -58,7 +58,7 @@ export -f gcurse
 
 function gchanged() {
   if [[ ! -e "./.git" ]]; then
-    gcurse gchanged
+    return 0
   fi
   status="$(git status -s 2>/dev/null)"
   if [[ -n "${status}" ]]; then
