@@ -56,6 +56,55 @@ function decode() {
   echo
 }
 
+function daa() {
+  read -r -a args <<< "${@}"
+  direnvDirs=()
+  for arg in "${args[@]}"; do
+    if [[ -d "${arg}" ]]; then
+      direnvDirs+=("${arg}")
+      shift
+    else
+      break
+    fi
+  done
+  if [[ -z "${direnvDirs}" ]]; then
+    IFS=$'\n' read -r -d '' -a direnvDirs < <( find . -name .envrc -type f -not -path '*/direnv/*' -exec dirname {} \; && printf '\0' )
+  fi
+  for dir in "${direnvDirs[@]}"; do
+    (
+      cd "${dir}" || exit
+      direnv allow
+    )
+  done
+}
+export -f daa
+
+# function direnv() {
+#   if ! installed direnv; then
+#     return 0
+#   fi
+#   if [[ "${1}" == "export" ]]; then
+#     command direnv "${@}" >/dev/null 2>&1
+#     return
+#   fi
+#   command direnv "${@}"
+# }
+# export -f direnv
+
+function direnv_cd() {
+  if ! installed direnv; then
+    cd "${@}"
+    return
+  fi
+  if [[ ! -f "${1}/.envrc" ]]; then
+    cd "${@}"
+    return
+  fi
+  cd "${1}"
+  eval "$(direnv allow && direnv export bash 2> /dev/null)"
+}
+export -f direnv_cd
+
 function dockerclean() {
   docker images -f "dangling=true" -q | xargs docker rmi -f || true
   docker rm -v "$(docker ps -a -q -f status=exited)" || true

@@ -16,6 +16,7 @@ function gdefault() (
   defaultBranch="${GIT_DEFAULT_BRANCH:-main}"
   echo "${defaultBranch}"
 )
+export -f gdefault
 
 function gclone {
   if [ -z "$1" ]
@@ -49,11 +50,8 @@ function gcurse() {
     IFS=$'\n' read -r -d '' -a gitDirs < <( find . -maxdepth 1 -type d -exec test -e {}/.git \; -print && printf '\0' )
   fi
   for dir in "${gitDirs[@]}"; do
-    (
-      echo "${dir}"
-      cd "${dir}" || exit
-      "${@}"
-    )
+    echo "${dir}"
+    (direnv_cd "${dir}" && "${@}")
   done
 }
 export -f gcurse 
