@@ -56,8 +56,12 @@ function gcurse() {
     )
   done
 }
+export -f gcurse 
 
 function gchanged() {
+  if [[ ! -e "./.git" ]]; then
+    gcurse gchanged
+  fi
   status="$(git status -s 2>/dev/null)"
   if [[ -n "${status}" ]]; then
     echo "---> has changes" >&2
