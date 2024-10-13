@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+function cpws() {
+  scp -O -p -r -P 76 "${1}" admin@tartalenas.local:/volume1/workspace/projects/
+}
