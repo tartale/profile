@@ -51,7 +51,7 @@ function gcurse() {
   fi
   for dir in "${gitDirs[@]}"; do
     echo "${dir}:" >&2
-    (direnv_cd "${dir}" && "${@}")
+    (direnvCD "${dir}" && "${@}")
   done
 }
 export -f gcurse 

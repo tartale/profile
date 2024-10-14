@@ -17,3 +17,6 @@ brew install avidemux
 brew install --cask altair-graphql-client
 brew install --cask wireshark
 brew install watch
+brew install bats
+brew tap kaos/shell
+brew install bats-assert
