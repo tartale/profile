@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-export GOPROXY=https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@artifactory.workday.com/artifactory/go

@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-# shellcheck disable=SC2046
-
-if installed manage; then
-  eval $(manage bash)
-fi
