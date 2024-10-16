@@ -46,7 +46,7 @@ function gcurse() {
       break
     fi
   done
-  if [[ -z "${gitDirs}" ]]; then
+  if [[ -z "${gitDirs[*]}" ]]; then
     IFS=$'\n' read -r -d '' -a gitDirs < <( find . -maxdepth 1 -type d -exec test -e {}/.git \; -print && printf '\0' )
   fi
   for dir in "${gitDirs[@]}"; do
@@ -120,7 +120,7 @@ function gitIgnoreGlobal() {
   done
 }
 
-gitIgnoreGlobal '.DS_Store' '.*-secrets' '*~' '.idea/' '.vscode/' '.envrc'
+gitIgnoreGlobal ".DS_Store" ".*-secrets" ".*-${PROJECT}*" "*~" ".idea/" ".vscode/" ".envrc"
 
 source "${PROFILE}/.git-completion.${SHELLNAME}"
 __git_complete gfinish _git_checkout
