@@ -20,3 +20,5 @@ brew install watch
 brew install bats
 brew tap kaos/shell
 brew install bats-assert
+brew install xq
+brew install git-lfs
